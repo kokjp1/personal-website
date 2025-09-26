@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 import { Badge } from '@/components/ui/badge';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
+import { InteractiveGridPattern } from '@/components/ui/shadcn-io/interactive-grid-pattern';
 
 type Project = {
   title: string;
@@ -189,10 +190,7 @@ export default function HomePage() {
           ))}
         </div>
         <div className="mt-4 flex justify-end">
-          <Button
-            variant="outline"
-            className="group text-xs whitespace-nowrap md:min-w-[12.75rem]"
-          >
+          <Button variant="outline" className="group text-xs whitespace-nowrap md:min-w-[12.75rem]">
             View all projects
             <Icon
               icon="lucide:arrow-right"

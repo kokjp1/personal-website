@@ -172,3 +172,15 @@ a:hover { text-decoration: underline; }
 #tools-grid[data-active-group="platforms/db"] li:not([data-group="platforms/db"]) {
   opacity: .35;
 }
+
+/* ImageZoom modal size override */
+[data-rmiz-modal-img] {
+  max-width: 760px;
+  width: 100%;
+  height: auto;
+}
+
+/* Optional: tighten on very small screens */
+@media (max-width: 480px) {
+  [data-rmiz-modal-img] { max-width: 90vw; }
+}

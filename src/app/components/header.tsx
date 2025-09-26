@@ -15,11 +15,10 @@ export default function Header() {
   const isHome = pathname === "/home";
 
   return (
-    <header className="w-full bg-transparent">
+    <header className="w-full bg-transparent z-[100] relative">
       <div className="mx-auto w-full max-w-screen-md px-5 md:px-8 mt-4">
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">
-            {/* Avatar (home). Bubble anchors here on /home but stays invisible */}
             <div className="relative">
               <Link
                 href="/home"
