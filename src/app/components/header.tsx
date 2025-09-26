@@ -5,6 +5,7 @@ import Link from "next/link";
 import ThemeToggle from "@/app/components/theme-switcher";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { CommandPalette } from '@/app/components/CommandPalette';
 
 export default function Header() {
   const pathname = usePathname();
@@ -72,8 +73,10 @@ export default function Header() {
               })}
             </nav>
           </div>
-
+          <div className="flex flex-row gap-2">
+          <CommandPalette />
           <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

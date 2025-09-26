@@ -184,3 +184,34 @@ a:hover { text-decoration: underline; }
 @media (max-width: 480px) {
   [data-rmiz-modal-img] { max-width: 90vw; }
 }
+
+/* Put this NEAR THE END of globals.css so it loads after other styles */
+@layer components {
+  .minimal-toast {
+    @apply flex items-start gap-2 rounded-lg px-3 py-2 text-xs backdrop-blur-sm border-2 shadow-sm;
+    background: hsl(var(--background) / 0.88);
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+  }
+  .dark .minimal-toast {
+    background: hsl(var(--background) / 0.82);
+    border-color: hsl(var(--border) / 0.65);
+  }
+
+  /* Title bold */
+  .minimal-toast-title {
+    font-weight: 700 !important;
+    line-height: 1.15;
+  }
+
+  /* Make success icon green (covers Sonner’s possible structures) */
+  .minimal-toast-success .sonner-icon,
+  .minimal-toast-success [data-icon],
+  .minimal-toast-success .sonner-icon svg,
+  .minimal-toast-success [data-icon] svg,
+  .minimal-toast-success > svg:first-of-type {
+    color: #16a34a !important;      /* Tailwind emerald-600 */
+    stroke: #16a34a !important;
+    fill: #16a34a;
+  }
+}

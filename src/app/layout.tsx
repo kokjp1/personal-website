@@ -5,11 +5,12 @@ import { Inter } from 'next/font/google';
 import Header from '@/app/components/header';
 import Footer from '@/app/components/footer';
 import { InteractiveGridPattern } from '@/components/ui/shadcn-io/interactive-grid-pattern';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({
-  subsets: ['latin'], // you can add "latin-ext" etc.
-  variable: '--font-inter', // sets a CSS variable
-  display: 'swap', // ensures fast rendering
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -17,10 +18,7 @@ export const metadata: Metadata = {
   description: 'Personal portfolio website of James Kok',
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    // optional fallbacks:
-    other: [
-      { rel: 'icon', url: '/favicon-32.png', sizes: '32x32' },
-    ],
+    other: [{ rel: 'icon', url: '/favicon-32.png', sizes: '32x32' }],
   },
 };
 
@@ -31,15 +29,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <div className="flex min-h-dvh flex-col">
             <div className="container mx-auto max-w-3xl px-4">
-              <Header />
-                {' '}
-                <InteractiveGridPattern
-                  squares={[25, 25]}
-                  className="mt-[-500] h-2/3 skew-y-12 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
-                />
-             </div>
-            <main className="container mx-auto max-w-3xl flex-1 px-4 py-10">{children}</main>
+              <div className="flex items-center justify-between gap-4">
+                <Header />
+                {/* Place the button (CommandPalette) in header if desired */}
+              </div>
+              <InteractiveGridPattern
+                squares={[25, 25]}
+                className="mt-[-400] h-2/3 skew-y-12 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
+              />
+            </div>
+            <main className="container mx-auto max-w-3xl flex-1 px-4 py-10">
+              {children}
+            </main>
           </div>
+          <Toaster />
         </ThemeProvider>
         <Footer />
       </body>

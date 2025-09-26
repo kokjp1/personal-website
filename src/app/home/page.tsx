@@ -1,6 +1,9 @@
 'use client';
 
-// app/page.tsx
+/* -------------------------------------------------------------------------- */
+/*                            Imports/types/consts                            */
+/* -------------------------------------------------------------------------- */
+import * as React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,11 +31,9 @@ type Tool = {
   group: Group;
 };
 
-// Universal icon size (change once)
 const TOOL_ICON_PX = 16;
 const TOOL_ICON_TW = 'w-4 h-4';
 
-// Labels + colors per group
 const GROUP_LABEL: Record<Group, string> = {
   design: 'Design',
   development: 'Development',
@@ -44,7 +45,6 @@ const GROUP_COLOR: Record<Group, { bg: string; dot: string }> = {
   'platforms/db': { bg: 'bg-amber-500', dot: 'bg-amber-500' },
 };
 
-// Text color per group (for the SVG cursor)
 const GROUP_TEXT: Record<Group, string> = {
   design: 'text-fuchsia-500',
   development: 'text-sky-500',
@@ -60,7 +60,7 @@ const tools: Tool[] = [
   { name: 'Illustrator', icon: 'devicon:illustrator', group: 'design' },
   { name: 'Premiere Pro', icon: 'devicon:premierepro', group: 'design' },
   { name: 'Blender', icon: 'devicon:blender', group: 'design' },
-
+  // Development
   { name: 'HTML', icon: 'devicon:html5', group: 'development' },
   { name: 'CSS', icon: 'devicon:css3', group: 'development' },
   { name: 'JavaScript', icon: 'devicon:javascript', group: 'development' },
@@ -72,7 +72,7 @@ const tools: Tool[] = [
   { name: 'Node.js/npm', icon: 'devicon:nodejs', group: 'development' },
   { name: 'Express', icon: 'devicon:express', group: 'development' },
   { name: 'Vite', icon: 'devicon:vite', group: 'development' },
-
+  // Platforms/DB
   { name: 'GitHub', icon: 'devicon:github', group: 'platforms/db' },
   { name: 'Vercel', icon: 'devicon:vercel', group: 'platforms/db' },
   { name: 'Cloudflare', icon: 'devicon:cloudflare', group: 'platforms/db' },
@@ -132,10 +132,79 @@ const projects: Project[] = [
   },
 ];
 
+/* -------------------------------------------------------------------------- */
+/*                                   Page                                  */
+/* -------------------------------------------------------------------------- */
+
 export default function HomePage() {
   const [activeGroup, setActiveGroup] = useState<Group | null>(null);
+  const [activeMobileProject, setActiveMobileProject] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const projectRefs = React.useRef<(HTMLAnchorElement | null)[]>([]);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    const setFlag = () => setIsMobile(mq.matches);
+    setFlag();
+    mq.addEventListener('change', setFlag);
+    return () => mq.removeEventListener('change', setFlag);
+  }, []);
+
+  React.useEffect(() => {
+    if (!isMobile) {
+      setActiveMobileProject(null);
+      return;
+    }
+
+    let ticking = false;
+
+    const calc = () => {
+      ticking = false;
+      const viewportCenter = window.innerHeight / 2;
+      let bestIdx: number | null = null;
+      let bestDist = Infinity;
+
+      projectRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        // Only consider if at least partially in view
+        if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+        const cardCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(cardCenter - viewportCenter);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestIdx = idx;
+        }
+      });
+
+      if (bestIdx !== null && bestIdx !== activeMobileProject) {
+        setActiveMobileProject(bestIdx);
+      }
+    };
+
+    const onScrollOrResize = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(calc);
+      }
+    };
+
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
+    // Initial run (next frame to ensure layout settled)
+    requestAnimationFrame(calc);
+
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+    };
+  }, [isMobile, activeMobileProject]);
 
   return (
+    /* -------------------------------------------------------------------------- */
+    /*                                   Intro                                  */
+    /* -------------------------------------------------------------------------- */
+
     <main className="flex flex-col gap-12 px-5 md:px-8">
       <section className="flex max-w-screen-md flex-col gap-4">
         <h1 className="text-xl font-semibold tracking-tight">james kok</h1>
@@ -150,43 +219,69 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* -------------------------------------------------------------------------- 
+    /                         Project bento section                              /                        
+     -------------------------------------------------------------------------- */}
+      
       <section aria-label="Featured projects">
+        <h2 className="mb-4 text-lg font-semibold">featured projects</h2>
         <div className="grid auto-rows-[8rem] grid-cols-1 gap-4 md:auto-rows-[10rem] md:grid-cols-6">
-          {projects.map((p) => (
-            <Link
-              key={p.href}
-              href={p.href}
-              className={[
-                'group relative overflow-hidden rounded-2xl',
-                'border border-black/5 dark:border-white/10',
-                'bg-white dark:bg-neutral-900',
-                'transition-transform duration-300 ease-out hover:scale-98',
-                'shadow-sm transition-shadow hover:shadow-md',
-                p.colSpan ?? 'md:col-span-2',
-                p.rowSpan ?? 'row-span-1',
-              ].join(' ')}
-            >
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105">
-                  <Image
-                    src={p.img}
-                    alt={p.alt}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover"
-                    priority
+          {projects.map((p, i) => {
+            const isActive = isMobile && i === activeMobileProject;
+            return (
+              <Link
+                key={p.href}
+                ref={(el) => {
+                  projectRefs.current[i] = el;
+                }}
+                href={p.href}
+                className={[
+                  'group relative overflow-hidden rounded-2xl',
+                  'border border-black/5 dark:border-white/10',
+                  'bg-white dark:bg-neutral-900',
+                  'transition-transform duration-300 ease-out hover:scale-98',
+                  'shadow-sm transition-shadow hover:shadow-md',
+                  p.colSpan ?? 'md:col-span-2',
+                  p.rowSpan ?? 'row-span-1',
+                  isActive ? 'is-active' : '',
+                ].join(' ')}
+                >
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105 group-[.is-active]:scale-105">
+                    <Image
+                      src={p.img}
+                      alt={p.alt}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+                    <span
+                      className={[
+                        'translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0',
+                        'transition-all duration-300 ease-out',
+                        'group-hover:translate-y-0 group-hover:opacity-100',
+                        'group-[.is-active]:translate-y-0 group-[.is-active]:opacity-100',
+                        'md:text-lg dark:text-white',
+                      ].join(' ')}
+                    >
+                      {p.title}
+                    </span>
+                  </div>
+                  <div
+                    className={[
+                      'pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out',
+                      'group-hover:bg-black/50',
+                      'group-[.is-active]:bg-black/50',
+                    ].join(' ')}
                   />
                 </div>
-                <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                  <span className="translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 md:text-lg dark:text-white">
-                    {p.title}
-                  </span>
-                </div>
-                <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out group-hover:bg-black/50" />
-              </div>
-              <span className="sr-only">{`Open project: ${p.title}`}</span>
-            </Link>
-          ))}
+                <span className="sr-only">{`Open project: ${p.title}`}</span>
+              </Link>
+            );
+          })}
         </div>
         <div className="mt-4 flex justify-end">
           <Button variant="outline" className="group text-xs whitespace-nowrap md:min-w-[12.75rem]">
@@ -199,7 +294,13 @@ export default function HomePage() {
           </Button>
         </div>
       </section>
+
+      {/* -------------------------------------------------------------------------- 
+    /                           Tools section                                    /
+     -------------------------------------------------------------------------- */}
+
       <section aria-label="Tools">
+        <h2 className="mb-4 text-lg font-semibold">my toolset</h2>
         <CursorProvider>
           <ul id="tools-grid" data-active-group={activeGroup ?? ''} className="flex flex-wrap gap-2">
             {tools.map((t) => (
@@ -233,7 +334,10 @@ export default function HomePage() {
             ))}
           </ul>
 
-          {/* Cursor dot color per group */}
+          {/* -------------------------------------------------------------------------- 
+          /                      Cursor dot animation                                 /
+          -------------------------------------------------------------------------- */}
+
           <Cursor>
             <svg
               className={['size-6 transition-colors', activeGroup ? GROUP_TEXT[activeGroup] : 'text-blue-500'].join(

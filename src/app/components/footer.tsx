@@ -58,6 +58,29 @@ export default function Footer() {
                 LinkedIn
               </span>
             </div>
+            
+            {/* Behance */}
+            <div className="relative group">
+              <Link
+                href="https://www.behance.net/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Behance"
+                className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+              >
+                <Icon
+                  icon="mdi:behance"
+                  className="size-5 text-foreground/70 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:text-foreground"
+                  aria-hidden
+                />
+              </Link>
+              <span
+                role="tooltip"
+                className="pointer-events-none absolute left-1/2 -top-7 -translate-x-1/2 whitespace-nowrap rounded-md bg-foreground px-2 py-1 text-xs text-background opacity-0 shadow transition-all duration-200 group-hover:-top-8 group-hover:opacity-100 group-focus-within:-top-8 group-focus-within:opacity-100"
+              >
+                Behance
+              </span>
+            </div>
 
             {/* Dribbble */}
             <div className="relative group">
