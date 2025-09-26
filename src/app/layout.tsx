@@ -20,7 +20,6 @@ export const metadata: Metadata = {
     // optional fallbacks:
     other: [
       { rel: 'icon', url: '/favicon-32.png', sizes: '32x32' },
-      { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
     ],
   },
 };
