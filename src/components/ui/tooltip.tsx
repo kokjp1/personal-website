@@ -75,22 +75,20 @@ function TooltipContent({
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
   const ctx = React.useContext(MobileTooltipContext)
 
-  // On touch, add a dismiss tap outside (simple: second tap elsewhere closes via Root)
   React.useEffect(() => {
-    if (!ctx?.isTouch || !ctx.open) return
+    if (!ctx?.isTouch || !ctx.open) return;
     const close = (e: MouseEvent | TouchEvent) => {
-      // Let Radix handle if click inside portal; quick heuristic
-      const target = e.target as HTMLElement | null
-      if (target?.closest?.("[data-slot='tooltip-content']")) return
-      ctx.setOpen(false)
-    }
-    document.addEventListener("touchstart", close)
-    document.addEventListener("mousedown", close)
+      const target = e.target as HTMLElement | null;
+      if (target?.closest?.("[data-slot='tooltip-content']")) return;
+      ctx.setOpen(false);
+    };
+    document.addEventListener("touchstart", close);
+    document.addEventListener("mousedown", close);
     return () => {
-      document.removeEventListener("touchstart", close)
-      document.removeEventListener("mousedown", close)
-    }
-  }, [ctx?.isTouch, ctx?.open])
+      document.removeEventListener("touchstart", close);
+      document.removeEventListener("mousedown", close);
+    };
+  }, [ctx]);
 
   return (
     <TooltipPrimitive.Portal>

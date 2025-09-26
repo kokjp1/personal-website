@@ -8,7 +8,6 @@ import { Icon } from '@iconify/react';
 import { Badge } from '@/components/ui/badge';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
-import { InteractiveGridPattern } from '@/components/ui/shadcn-io/interactive-grid-pattern';
 
 type Project = {
   title: string;
