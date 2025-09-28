@@ -21,15 +21,20 @@ export default function ProjectsPage() {
 
   const filtered: ProjectMeta[] = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    return projectMeta.filter((p) => {
+    return projectMeta.filter((p: ProjectMeta) => {
+      const tags = (p.tags ?? []) as string[];
+      const rolesArr = (p.roles ?? []) as string[];
+
       const textMatch =
         !q ||
         p.title.toLowerCase().includes(q) ||
         (p.description ?? "").toLowerCase().includes(q) ||
-        (p.tags ?? []).some((t) => t.toLowerCase().includes(q));
+        tags.some((tag: string) => tag.toLowerCase().includes(q));
+
       const rolesMatch =
         roleFilters.length === 0 ||
-        (p.roles ?? []).some((r) => roleFilters.includes(r));
+        rolesArr.some((r: string) => roleFilters.includes(r));
+
       return textMatch && rolesMatch;
     });
   }, [query, roleFilters]);

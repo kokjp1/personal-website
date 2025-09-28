@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ProjectMeta } from "@/components/content/ProjectLayout";
-import { Figure } from "@/components/content/Figure";
+// import { Figure } from "@/components/content/Figure";
 
 import cover from "./userjourney.png";
 
