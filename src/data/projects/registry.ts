@@ -11,7 +11,6 @@ import * as listral from "./listral/index";
 import * as minor from "./minor/index";
 import * as onyx from "./onyx/index";
 import * as personalprojects from "./personalprojects/index";
-import * as portfolioRefresh from "./portfolio-refresh/index";
 import * as rhythmrain from "./rhythmrain/index";
 import * as userjourney from "./userjourney/index";
 import * as whackamole from "./whackamole/index";
@@ -30,7 +29,6 @@ function isProjectModule(mod: unknown): mod is ProjectModule {
 }
 
 const rawModules = [
-  portfolioRefresh,
   blender,
   boekenzoeker,
   gameboxd,

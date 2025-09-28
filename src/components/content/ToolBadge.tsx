@@ -1,64 +1,103 @@
-// Central tool / role / tag badge with shared icon registry
+// Unified ToolBadge + tool registry (single source of truth)
+
 import * as React from 'react';
 import Image from 'next/image';
 import { Icon } from '@iconify/react';
 import { Badge } from '@/components/ui/badge';
 
 /* -------------------------------------------------------------------------- */
-/*                             Icon / label registry                          */
-/*  - Add or adjust entries here.                                             */
-/*  - Used automatically if <ToolBadge label="..." /> is rendered without     */
-/*    an explicit icon prop.                                                  */
+/* Types                                                                      */
 /* -------------------------------------------------------------------------- */
-export const ICON_MAP: Record<string, { icon: string; color?: string }> = {
-  // Design tools
-  Figma: { icon: 'devicon:figma' },
-  Flourish: { icon: '/icons/Flourish_Logo_Black_small.png' },
-  'After Effects': { icon: 'devicon:aftereffects' },
-  Photoshop: { icon: 'devicon:photoshop' },
-  Illustrator: { icon: 'devicon:illustrator' },
-  'Premiere Pro': { icon: 'devicon:premierepro' },
-  Blender: { icon: 'devicon:blender' },
+export type ToolGroup = 'design' | 'development' | 'platforms/db';
 
-  // Dev stack
-  HTML: { icon: 'devicon:html5' },
-  CSS: { icon: 'devicon:css3' },
-  JavaScript: { icon: 'devicon:javascript' },
-  TypeScript: { icon: 'devicon:typescript' },
-  React: { icon: 'devicon:react' },
-  Tailwind: { icon: 'devicon:tailwindcss' },
-  shadcn: { icon: 'vscode-icons:file-type-light-shadcn', color: '#ffffff' },
-  'Next.js': { icon: 'devicon:nextjs' },
-  'Node.js/npm': { icon: 'devicon:nodejs' },
-  Express: { icon: 'devicon:express' },
-  Vite: { icon: 'devicon:vite' },
+export interface ToolDef {
+  name: string;
+  icon: string;          // Iconify id OR /public path
+  group: ToolGroup;
+  color?: string;        // Optional explicit color override for icon
+}
+
+/* -------------------------------------------------------------------------- */
+/* Tool data (ONLY place you define tools + their icons)                      */
+/* -------------------------------------------------------------------------- */
+export const TOOLS: ToolDef[] = [
+  // Design
+  { name: 'Figma', icon: 'devicon:figma', group: 'design' },
+  { name: 'Flourish', icon: '/icons/Flourish_Logo_Black_small.png', group: 'design' },
+  { name: 'After Effects', icon: 'devicon:aftereffects', group: 'design' },
+  { name: 'Photoshop', icon: 'devicon:photoshop', group: 'design' },
+  { name: 'Illustrator', icon: 'devicon:illustrator', group: 'design' },
+  { name: 'Premiere Pro', icon: 'devicon:premierepro', group: 'design' },
+  { name: 'Blender', icon: 'devicon:blender', group: 'design' },
+
+  // Development
+  { name: 'HTML', icon: 'devicon:html5', group: 'development' },
+  { name: 'CSS', icon: 'devicon:css3', group: 'development' },
+  { name: 'JavaScript', icon: 'devicon:javascript', group: 'development' },
+  { name: 'TypeScript', icon: 'devicon:typescript', group: 'development' },
+  { name: 'React', icon: 'devicon:react', group: 'development' },
+  { name: 'Tailwind', icon: 'devicon:tailwindcss', group: 'development' },
+  { name: 'shadcn', icon: 'vscode-icons:file-type-light-shadcn', color: '#ffffff', group: 'development' },
+  { name: 'Next.js', icon: 'devicon:nextjs', group: 'development' },
+  { name: 'Node.js/npm', icon: 'devicon:nodejs', group: 'development' },
+  { name: 'Express', icon: 'devicon:express', group: 'development' },
+  { name: 'Vite', icon: 'devicon:vite', group: 'development' },
 
   // Platforms / DB
-  GitHub: { icon: 'devicon:github' },
-  Vercel: { icon: 'devicon:vercel' },
-  Cloudflare: { icon: 'devicon:cloudflare' },
-  Firebase: { icon: 'devicon:firebase' },
-  Supabase: { icon: 'devicon:supabase' },
-  MongoDB: { icon: 'devicon:mongodb' },
+  { name: 'GitHub', icon: 'devicon:github', group: 'platforms/db' },
+  { name: 'Vercel', icon: 'devicon:vercel', group: 'platforms/db' },
+  { name: 'Cloudflare', icon: 'devicon:cloudflare', group: 'platforms/db' },
+  { name: 'Firebase', icon: 'devicon:firebase', group: 'platforms/db' },
+  { name: 'Supabase', icon: 'devicon:supabase', group: 'platforms/db' },
+  { name: 'MongoDB', icon: 'devicon:mongodb', group: 'platforms/db' },
+];
+
+/* -------------------------------------------------------------------------- */
+/* Group meta (labels / colors)                                               */
+/* -------------------------------------------------------------------------- */
+export const GROUP_LABEL: Record<ToolGroup, string> = {
+  design: 'Design',
+  development: 'Development',
+  'platforms/db': 'Platforms/DB',
 };
 
+export const GROUP_COLOR: Record<ToolGroup, { bg: string; dot: string; text: string }> = {
+  design: { bg: 'bg-fuchsia-500', dot: 'bg-fuchsia-500', text: 'text-fuchsia-500' },
+  development: { bg: 'bg-sky-500', dot: 'bg-sky-500', text: 'text-sky-500' },
+  'platforms/db': { bg: 'bg-amber-500', dot: 'bg-amber-500', text: 'text-amber-500' },
+};
+
+/* -------------------------------------------------------------------------- */
+/* Derived icon map (auto-built from TOOLS; extend manually for tags/roles)   */
+/* -------------------------------------------------------------------------- */
+export const ICON_MAP: Record<string, { icon: string; color?: string }> = TOOLS.reduce(
+  (acc, t) => {
+    acc[t.name] = { icon: t.icon, color: t.color };
+    return acc;
+  },
+  {} as Record<string, { icon: string; color?: string }>
+);
+
+/* Optionally add extra non-tool labels here (tags, roles, etc.) */
+// ICON_MAP['Design System'] = { icon: 'ph:shapes-duotone' };
+
+/* -------------------------------------------------------------------------- */
+/* ToolBadge component                                                        */
+/* -------------------------------------------------------------------------- */
 interface ToolBadgeProps {
   label: string;
-  icon?: string;
+  icon?: string;          // override
   color?: string;
   iconSize?: number;
   className?: string;
   hideIconIfMissing?: boolean;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                ToolBadge                                   */
-/* -------------------------------------------------------------------------- */
 export function ToolBadge({
   label,
   icon,
   color,
-  iconSize = 14,            // bump default if you want larger
+  iconSize = 14,
   className = '',
   hideIconIfMissing = true,
 }: ToolBadgeProps) {
@@ -66,7 +105,6 @@ export function ToolBadge({
   const resolvedIcon = icon ?? entry?.icon;
   const resolvedColor = color ?? entry?.color;
 
-  // Build dynamic size classes (Tailwind JIT allows arbitrary values)
   const boxClass = `flex shrink-0 items-center justify-center w-[${iconSize}px] h-[${iconSize}px]`;
   const imgClass = `object-contain opacity-90 w-[${iconSize}px] h-[${iconSize}px]`;
 
@@ -75,7 +113,6 @@ export function ToolBadge({
       variant="secondary"
       className={[
         'border-foreground/10 rounded-md',
-        // Adjust padding & text size to feel proportional to bigger icon
         'px-2 py-1 text-[11px] leading-none font-medium tracking-wide',
         'flex items-center gap-1',
         className,

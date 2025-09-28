@@ -11,6 +11,7 @@ import { Icon } from '@iconify/react';
 import { Badge } from '@/components/ui/badge';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
+import { TOOLS, GROUP_LABEL, GROUP_COLOR, ToolBadge, type ToolGroup } from '@/components/content/ToolBadge';
 
 type Project = {
   title: string;
@@ -20,66 +21,6 @@ type Project = {
   colSpan?: string;
   rowSpan?: string;
 };
-
-type Group = 'design' | 'development' | 'platforms/db';
-
-type Tool = {
-  name: string;
-  icon: string;
-  href?: string;
-  color?: string;
-  group: Group;
-};
-
-const TOOL_ICON_PX = 16;
-const TOOL_ICON_TW = 'w-4 h-4';
-
-const GROUP_LABEL: Record<Group, string> = {
-  design: 'Design',
-  development: 'Development',
-  'platforms/db': 'Platforms/DB',
-};
-const GROUP_COLOR: Record<Group, { bg: string; dot: string }> = {
-  design: { bg: 'bg-fuchsia-500', dot: 'bg-fuchsia-500' },
-  development: { bg: 'bg-sky-500', dot: 'bg-sky-500' },
-  'platforms/db': { bg: 'bg-amber-500', dot: 'bg-amber-500' },
-};
-
-const GROUP_TEXT: Record<Group, string> = {
-  design: 'text-fuchsia-500',
-  development: 'text-sky-500',
-  'platforms/db': 'text-amber-500',
-};
-
-const tools: Tool[] = [
-  // Design
-  { name: 'Figma', icon: 'devicon:figma', group: 'design' },
-  { name: 'Flourish', icon: '/icons/Flourish_Logo_Black_small.png', group: 'design' },
-  { name: 'After Effects', icon: 'devicon:aftereffects', group: 'design' },
-  { name: 'Photoshop', icon: 'devicon:photoshop', group: 'design' },
-  { name: 'Illustrator', icon: 'devicon:illustrator', group: 'design' },
-  { name: 'Premiere Pro', icon: 'devicon:premierepro', group: 'design' },
-  { name: 'Blender', icon: 'devicon:blender', group: 'design' },
-  // Development
-  { name: 'HTML', icon: 'devicon:html5', group: 'development' },
-  { name: 'CSS', icon: 'devicon:css3', group: 'development' },
-  { name: 'JavaScript', icon: 'devicon:javascript', group: 'development' },
-  { name: 'TypeScript', icon: 'devicon:typescript', group: 'development' },
-  { name: 'React', icon: 'devicon:react', group: 'development' },
-  { name: 'Tailwind', icon: 'devicon:tailwindcss', group: 'development' },
-  { name: 'shadcn', icon: 'vscode-icons:file-type-light-shadcn', color: '#ffffff', group: 'development' },
-  { name: 'Next.js', icon: 'devicon:nextjs', group: 'development' },
-  { name: 'Node.js/npm', icon: 'devicon:nodejs', group: 'development' },
-  { name: 'Express', icon: 'devicon:express', group: 'development' },
-  { name: 'Vite', icon: 'devicon:vite', group: 'development' },
-  // Platforms/DB
-  { name: 'GitHub', icon: 'devicon:github', group: 'platforms/db' },
-  { name: 'Vercel', icon: 'devicon:vercel', group: 'platforms/db' },
-  { name: 'Cloudflare', icon: 'devicon:cloudflare', group: 'platforms/db' },
-  { name: 'Firebase', icon: 'devicon:firebase', group: 'platforms/db' },
-  { name: 'Supabase', icon: 'devicon:supabase', group: 'platforms/db' },
-  { name: 'MongoDB', icon: 'devicon:mongodb', group: 'platforms/db' },
-];
 
 const projects: Project[] = [
   {
@@ -137,7 +78,7 @@ const projects: Project[] = [
 /* -------------------------------------------------------------------------- */
 
 export default function HomePage() {
-  const [activeGroup, setActiveGroup] = useState<Group | null>(null);
+  const [activeGroup, setActiveGroup] = useState<ToolGroup | null>(null);
   const [activeMobileProject, setActiveMobileProject] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const projectRefs = React.useRef<(HTMLAnchorElement | null)[]>([]);
@@ -199,6 +140,9 @@ export default function HomePage() {
       window.removeEventListener('resize', onScrollOrResize);
     };
   }, [isMobile, activeMobileProject]);
+
+  // Helper for cursor text color (replaces old GROUP_TEXT constant)
+  const activeCursorText = activeGroup ? GROUP_COLOR[activeGroup].text : 'text-blue-500';
 
   return (
     /* -------------------------------------------------------------------------- */
@@ -302,8 +246,12 @@ export default function HomePage() {
       <section aria-label="Tools">
         <h2 className="mb-4 text-lg font-semibold">my toolset</h2>
         <CursorProvider>
-          <ul id="tools-grid" data-active-group={activeGroup ?? ''} className="flex flex-wrap gap-2">
-            {tools.map((t) => (
+          <ul
+            id="tools-grid"
+            data-active-group={activeGroup ?? ''}
+            className="flex flex-wrap gap-2"
+          >
+            {TOOLS.map(t => (
               <li
                 key={t.name}
                 data-group={t.group}
@@ -313,36 +261,15 @@ export default function HomePage() {
                 onBlur={() => setActiveGroup(null)}
                 className="transition-opacity"
               >
-                <Badge variant="secondary" className="border-foreground/10 rounded-md px-2 py-1">
-                  <span className={`${TOOL_ICON_TW} flex shrink-0 items-center justify-center`}>
-                    {t.icon.includes(':') ? (
-                      <Icon icon={t.icon} color={t.color} className={`${TOOL_ICON_TW} opacity-90`} aria-hidden />
-                    ) : (
-                      <Image
-                        src={t.icon}
-                        alt={t.name}
-                        width={TOOL_ICON_PX}
-                        height={TOOL_ICON_PX}
-                        aria-hidden
-                        className={`${TOOL_ICON_TW} object-contain opacity-90`}
-                      />
-                    )}
-                  </span>
-                  <span className="leading-none">{t.name}</span>
-                </Badge>
+                <ToolBadge label={t.name} iconSize={16} />
               </li>
             ))}
           </ul>
 
-          {/* -------------------------------------------------------------------------- 
-          /                      Cursor dot animation                                 /
-          -------------------------------------------------------------------------- */}
-
+          {/* Cursor dot animation */}
           <Cursor>
             <svg
-              className={['size-6 transition-colors', activeGroup ? GROUP_TEXT[activeGroup] : 'text-blue-500'].join(
-                ' '
-              )}
+              className={['size-6 transition-colors', activeCursorText].join(' ')}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 40 40"
               aria-hidden
@@ -356,7 +283,10 @@ export default function HomePage() {
           <CursorFollow>
             {activeGroup ? (
               <div
-                className={['rounded-lg px-2 py-1 text-sm text-white shadow-lg', GROUP_COLOR[activeGroup].bg].join(' ')}
+                className={[
+                  'rounded-lg px-2 py-1 text-sm text-white shadow-lg',
+                  GROUP_COLOR[activeGroup].bg,
+                ].join(' ')}
               >
                 {GROUP_LABEL[activeGroup]}
               </div>
