@@ -10,8 +10,8 @@ export const meta: ProjectMeta = {
   year: 2023,
   description: "WebGL + reactive audio pipeline translating frequency bands into motion.",
   context: "Personal",
-  roles: ["✨ CREATIVE", "💻 DEV"],
-  tags: ["WebGL", "Shaders", "Audio"],
+  roles: ["✨ CREA", "💻 DEV"],
+  tags: ["HTML", "CSS", "After Effects", "Photoshop"],
   cover,
   links: [{ label: "Live Demo", href: "https://example.com/visualizer" }],
 };

@@ -12,7 +12,7 @@ export const meta: ProjectMeta = {
   description: "Modular analytics dashboard with real-time tiles.",
   context: "Client",
   roles: ["🎨 UI", "🔎 UX", "💻 DEV"],
-  tags: ["Next.js", "TypeScript", "Design System"],
+  tags: ["Next.js", "TypeScript"],
   cover,
   // gallery omitted for now (only one asset exists)
   links: [

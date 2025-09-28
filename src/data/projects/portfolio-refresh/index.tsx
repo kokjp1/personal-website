@@ -11,7 +11,7 @@ export const meta: ProjectMeta = {
   description: "Re-architecture of the personal site focusing on content velocity.",
   context: "Personal",
   roles: ["🎨 UI", "💻 DEV"],
-  tags: ["Next.js", "Content Architecture", "Design Tokens"],
+  tags: ["Next.js", "TypeScript", "TailwindCSS"],
   cover,
   links: [{ label: "Source", href: "https://github.com/example/portfolio" }],
 };

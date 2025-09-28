@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { projectMeta } from "@/data/projects/registry";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
 
-const ROLES = ["🔎 UX", "🎨 UI", "💻 DEV", "✨ CREATIVE"] as const;
+const ROLES = ["🔎 UX", "🎨 UI", "💻 DEV", "✨ CREA"] as const;
 
 export default function ProjectsPage() {
   const [query, setQuery] = React.useState("");
@@ -44,7 +44,7 @@ export default function ProjectsPage() {
           </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="flex-1">
+          <div className="flex-1 z-10">
             <Input
               placeholder="Search projects..."
               value={query}
@@ -62,7 +62,7 @@ export default function ProjectsPage() {
                   variant={active ? "default" : "outline"}
                   size="sm"
                   onClick={() => toggleRole(role)}
-                  className="rounded-md px-3"
+                  className="rounded-md px-3 z-10"
                   aria-pressed={active}
                 >
                   {role}
