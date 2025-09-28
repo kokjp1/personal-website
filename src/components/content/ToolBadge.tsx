@@ -58,7 +58,7 @@ export function ToolBadge({
   label,
   icon,
   color,
-  iconSize = 18,            // bump default if you want larger
+  iconSize = 14,            // bump default if you want larger
   className = '',
   hideIconIfMissing = true,
 }: ToolBadgeProps) {
