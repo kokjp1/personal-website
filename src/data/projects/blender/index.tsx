@@ -10,7 +10,7 @@ export const meta: ProjectMeta = {
   year: 2025,
   description: "Models and scenes I've been creating in Blender.",
   context: "Personal",
-  roles: ["🎨 CREA"],
+  roles: ["✨ CREA"],
   tags: ["Blender"],
   cover,
   links: [{ label: "Source", href: "https://github.com/example/portfolio" }],

@@ -3,7 +3,7 @@ import type { ProjectMeta } from "@/components/content/ProjectLayout";
 import { ProjectLayout } from "@/components/content/ProjectLayout";
 import { projectModules } from "@/data/projects/registry";
 
-// Precompute slug -> lazy importer
+// Map slug -> dynamic importer (static analyzable)
 const loaders: Record<string, () => Promise<{ meta: ProjectMeta; default: React.ComponentType }>> =
   Object.fromEntries(
     projectModules.map(m => [m.meta.slug, () => import(`@/data/projects/${m.meta.slug}`)])
@@ -13,21 +13,22 @@ export function generateStaticParams() {
   return projectModules.map(m => ({ slug: m.meta.slug }));
 }
 
+// NOTE: In Next 15 the `params` prop in an async route can be a Promise.
+// Await it before destructuring to avoid the runtime warning.
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params; // await params (fixes warning)
+
   const load = loaders[slug];
   if (!load) return notFound();
 
-  // Dynamically import the project module
   const mod = await load();
   const { meta } = mod;
   const Body = mod.default;
 
-  // Allow custom layout override
   if (meta.layout === "custom") {
     return <Body />;
   }
