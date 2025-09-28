@@ -8,12 +8,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import { Badge } from '@/components/ui/badge';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
 import { TOOLS, GROUP_LABEL, GROUP_COLOR, ToolBadge, type ToolGroup } from '@/components/content/ToolBadge';
 import { projectMeta } from "@/data/projects/registry";
 import { toast } from 'sonner';
+import type { StaticImageData } from 'next/image';
 
 // --- Define which slugs appear in the bento + their layout
 const FEATURED_LAYOUT: Record<
@@ -39,29 +39,33 @@ const FEATURED_ORDER = [
 ] as const;
 
 // --- Build projects array from registry meta
-const featuredProjects = FEATURED_ORDER
-  .map(slug => {
-    const meta = projectMeta.find(m => m.slug === slug);
-    if (!meta) return null;
-    const layout = FEATURED_LAYOUT[slug];
-    return {
-      title: meta.title,
-      href: `/projects/${meta.slug}`,
-      // cover is a StaticImageData from the project module
-      cover: meta.cover,
-      alt: `${meta.title} cover`,
-      colSpan: layout.colSpan,
-      rowSpan: layout.rowSpan,
-    };
-  })
-  .filter(Boolean) as {
-    title: string;
-    href: string;
-    cover: any;
-    alt: string;
-    colSpan: string;
-    rowSpan: string;
-  }[];
+interface FeaturedProject {
+  title: string;
+  href: string;
+  cover?: StaticImageData;
+  alt: string;
+  colSpan: string;
+  rowSpan: string;
+}
+
+// Build first, then narrow (avoid type conflict + bad predicate error)
+const rawFeatured: (FeaturedProject | null)[] = FEATURED_ORDER.map(slug => {
+  const meta = projectMeta.find(m => m.slug === slug);
+  if (!meta) return null;
+  const layout = FEATURED_LAYOUT[slug];
+  return {
+    title: meta.title,
+    href: `/projects/${meta.slug}`,
+    cover: meta.cover,          // StaticImageData | undefined
+    alt: `${meta.title} cover`,
+    colSpan: layout.colSpan,
+    rowSpan: layout.rowSpan,
+  } satisfies FeaturedProject;
+});
+
+const featuredProjects: FeaturedProject[] = rawFeatured.filter(
+  (p): p is FeaturedProject => p !== null
+);
 
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
@@ -239,14 +243,16 @@ export default function HomePage() {
                 >
                 <div className="absolute inset-0 overflow-hidden">
                   <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105 group-[.is-active]:scale-105">
-                    <Image
-                      src={p.cover}     
-                      alt={p.alt}
-                      fill
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover"
-                      priority
-                    />
+                    {p.cover && ( // Narrow so cover is not undefined
+                      <Image
+                        src={p.cover}
+                        alt={p.alt}
+                        fill
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="object-cover"
+                        priority
+                      />
+                    )}
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                     <span

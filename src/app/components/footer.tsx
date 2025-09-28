@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-3xl px-5 md:px-12 mt-10 mb-6">
         <div className="flex h-14 gap-8 items-center justify-between">
           <p className="text-xs text-foreground/70">
-            Copyright © 2025 James Kok - All right reserved
+            Copyright © 2025 James Kok - All rights reserved
           </p>
 
           <nav className="flex items-center gap-4">
