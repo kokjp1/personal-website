@@ -13,7 +13,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Command } from 'lucide-react';
-import { toast } from 'sonner'; // switched to sonner
+import { toast } from 'sonner';
+
+// NOTE: Move CV_james_kok.pdf to /public/ (public/CV_james_kok.pdf) so it can be served directly.
+// If you keep it in src/data it will NOT be publicly accessible at runtime.
+const CV_URL = '/CV_james_kok.pdf';
 
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false);
@@ -48,6 +52,11 @@ export function CommandPalette() {
     }
   };
 
+  const openCV = () => {
+    window.open(CV_URL, '_blank', 'noopener,noreferrer');
+    setOpen(false);
+  };
+
   return (
     <>
       <Button
@@ -65,30 +74,18 @@ export function CommandPalette() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
+          <CommandGroup heading="Commands">
+            <CommandItem onSelect={copyCurrentUrl}>🔗 Copy URL</CommandItem>
+            <CommandItem onSelect={openCV}>📄 Open resume (cv)</CommandItem>
+          </CommandGroup>
+
           <CommandGroup heading="Navigation">
-            <CommandItem onSelect={copyCurrentUrl}>Copy URL</CommandItem>
+            <CommandItem onSelect={() => go('/home')}>Home</CommandItem>
             <CommandItem onSelect={() => go('/about')}>About</CommandItem>
             <CommandItem onSelect={() => go('/projects')}>Projects</CommandItem>
           </CommandGroup>
 
-          <CommandGroup heading="Projects">
-            <CommandItem onSelect={() => go('/projects/listral')}>Listral</CommandItem>
-            <CommandItem onSelect={() => go('/projects/boekenzoeker')}>Boekenzoeker</CommandItem>
-            <CommandItem onSelect={() => go('/projects/onyx')}>ONYX</CommandItem>
-          </CommandGroup>
-
           <CommandSeparator />
-
-          <CommandGroup heading="Actions">
-            <CommandItem
-              onSelect={() => {
-                setOpen(false);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              Scroll to top
-            </CommandItem>
-          </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>

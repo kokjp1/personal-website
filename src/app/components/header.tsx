@@ -21,29 +21,30 @@ export default function Header() {
         <div className="flex h-14 items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="relative">
+              {/* Bubble FIRST, placed behind avatar */}
+              {isHome && (
+                <motion.span
+                  layoutId="nav-bubble"
+                  className="mb-4 pointer-events-none absolute inset-0 rounded-full bg-foreground/10 dark:bg-white/10 -z-10"
+                  transition={{ type: 'spring', stiffness: 500, damping: 30, mass: 0.7 }}
+                  aria-hidden
+                />
+              )}
               <Link
                 href="/home"
-                className="inline-flex items-center"
+                className="inline-flex items-center relative"
                 aria-label="Go to home"
-                aria-current={isHome ? "page" : undefined}
+                aria-current={isHome ? 'page' : undefined}
               >
                 <Image
                   src="/icons/profilepicture.jpg"
                   alt="Profile"
                   width={36}
                   height={36}
-                  className="rounded-full object-cover"
+                  className="relative z-10 rounded-full object-cover"
                   priority
                 />
               </Link>
-              {isHome && (
-                <motion.span
-                  layoutId="nav-bubble"
-                  className="pointer-events-none absolute inset-0 rounded-full bg-foreground/10 dark:bg-white/10 opacity-0"
-                  transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.7 }}
-                  aria-hidden
-                />
-              )}
             </div>
 
             <nav className="flex items-center gap-2 text-sm">
