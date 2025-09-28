@@ -350,6 +350,16 @@ export default function HomePage() {
 
       <section aria-label="Contact">
         <h2 className="mb-4 text-lg font-semibold">contact</h2>
+        <p className="mb-4 text-sm">
+          Or if you prefer contacting me directly:&nbsp;
+          <a
+            href="mailto:jamespieterkok@outlook.com"
+            className="underline decoration-current text-blue-600 dark:text-sky-400"
+            style={{ color: 'rgb(37 99 235)' }} // tailwind blue-600
+          >
+            jamespieterkok@outlook.com
+          </a>
+        </p>
 
         <form onSubmit={onSubmit} className="max-w-screen space-y-3">
           <div className="grid gap-3 sm:grid-cols-2">
