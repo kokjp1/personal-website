@@ -126,7 +126,18 @@
 
 /* ---------------- Base resets (minimal) ----------------
    Keep this lean so shadcn component CSS isn’t fought by globals. */
-html, body { height: 100%; }
+html {
+  /* Stop horizontal bounce but KEEP normal layout metrics */
+  overscroll-behavior-x: none;
+}
+
+body {
+  max-width: 100%;
+  overflow-x: hidden;      /* Kill horizontal pan */
+  touch-action: pan-y;      /* Allow only vertical touch scroll */
+  /* (Do NOT force a fixed height; the old `height: 100` (invalid) could
+     confuse mobile layout + your center calculations) */
+}
 
 p {
   color: #52525b;
@@ -173,18 +184,6 @@ a:hover { text-decoration: underline; }
   opacity: .35;
 }
 
-/* ImageZoom modal size override */
-[data-rmiz-modal-img] {
-  max-width: 760px;
-  width: 100%;
-  height: auto;
-}
-
-/* Optional: tighten on very small screens */
-@media (max-width: 480px) {
-  [data-rmiz-modal-img] { max-width: 90vw; }
-}
-
 /* Put this NEAR THE END of globals.css so it loads after other styles */
 @layer components {
   .minimal-toast {
@@ -215,3 +214,13 @@ a:hover { text-decoration: underline; }
     fill: #16a34a;
   }
 }
+
+.fslightbox-container,
+.fslightbox-container .fslightbox-bg {
+  background: rgba(0,0,0,0.8) !important;       
+}
+
+.fslightbox-container .fslightbox-bg {
+  opacity: 1 !important;               
+}
+

@@ -5,9 +5,10 @@ export const meta: ProjectMeta = {
   slug: "personalprojects",
   title: "Personal Projects",
   year: 2024,
-  description: "Placeholder description for personal side projects.",
-  roles: [],
-  tags: [],
+  context: "Personal Project",
+  description: "Personal projects I've worked on in my free time.",
+  roles: ["✨ CREA"],
+  tags: ["Photoshop", "Illustrator", "Premiere Pro", "After Effects"],
   cover,
 };
 

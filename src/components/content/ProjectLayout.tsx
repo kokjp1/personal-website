@@ -1,6 +1,8 @@
 import * as React from "react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link"; // added
 import { ToolBadge } from "./ToolBadge";
+import { ExternalLink, ArrowLeft } from "lucide-react"; // added ArrowLeft
 
 /* -------------------------------------------------------------------------- */
 /*                            Project meta (shared)                            */
@@ -8,7 +10,7 @@ import { ToolBadge } from "./ToolBadge";
 export type ProjectMeta = {
   slug: string;
   title: string;
-  year: number;
+  year: number | string;
   description?: string;
   context?: string;
   roles?: string[];
@@ -41,8 +43,24 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
   } = meta;
 
   return (
-    /* ------------------------------ Page container ------------------------------ */
     <div className="px-5 md:px-8 py-10 flex flex-col gap-10">
+      {/* Back button */}
+      <nav
+        aria-label="Breadcrumb"
+        className="-mt-2 mb-2 relative z-20 pointer-events-auto"
+      >
+        <Link
+          href="/projects"
+          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium
+                     text-muted-foreground hover:text-foreground hover:bg-muted/40
+                     transition-colors focus-visible:outline-none focus-visible:ring-2
+                     focus-visible:ring-offset-2 focus-visible:ring-muted-foreground/30
+                     dark:focus-visible:ring-offset-background"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+          <span>Back to projects</span>
+        </Link>
+      </nav>
       {/* ----------------------------- Header / Hero ------------------------------ */}
       <header className="flex flex-col gap-6">
         {/* ---------------- Title / year / context / description ---------------- */}
@@ -95,7 +113,7 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
                 rel="noreferrer"
                 className="text-xs font-medium underline underline-offset-4 hover:text-foreground/80 transition-colors"
               >
-                {l.label} →
+                {l.label} <ExternalLink className="inline-block mb-0.5 h-3 w-3" aria-hidden />
               </a>
             ))}
           </div>

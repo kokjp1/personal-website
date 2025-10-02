@@ -8,9 +8,10 @@ export const meta: ProjectMeta = {
   slug: "rhythmrain",
   title: "RhythmRain",
   year: 2024,
-  description: "Placeholder description for RhythmRain project.",
-  roles: [],
-  tags: [],
+  context: "CMD",
+  description: "Fictional app for adding a deeper level of immersion to playing videogames.",
+  roles: ["🎨 UI"],
+  tags: ["Figma"],
   cover,
 };
 

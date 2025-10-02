@@ -7,28 +7,23 @@ import cover from "./blendersetup.png";
 export const meta: ProjectMeta = {
   slug: "blender",
   title: "Blender",
-  year: 2025,
+  year: "Ongoing",
   description: "Models and scenes I've been creating in Blender.",
-  context: "Personal",
+  context: "Personal Project",
   roles: ["✨ CREA"],
   tags: ["Blender"],
   cover,
-  links: [{ label: "Source", href: "https://github.com/example/portfolio" }],
+  // links: [{ label: "Source", href: "https://github.com/example/portfolio" }],
 };
 
 export default function Body() {
   return (
     <>
       <p>
-        Shift from static case studies to composable TSX modules exporting metadata and
-        body for faster iteration without MDX parsing.
+        I've always wanted to experiment with 3D modeling software, primarily Blender. In my second year of CMD I finally got the incentive to dive in for a school subject related to 3D modeling. Since then I've been exploring Blender in my free time, creating various models and scenes.
       </p>
-      <h2>Approach</h2>
-      <p>
-        Single import surface (meta) for the list view; full module only loads on detail
-        navigation, reducing initial bundle.
-      </p>
-      <Figure src={cover} alt="Portfolio hero" caption="Refreshed visual system." />
+      <p className="text-2xl mt-16">MORE 3D RENDERS COMING SOON</p>
+      {/* <Figure src={cover} alt="Portfolio hero" caption="Refreshed visual system." /> */}
     </>
   );
-}
+} 

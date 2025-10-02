@@ -8,9 +8,10 @@ export const meta: ProjectMeta = {
   slug: "onyx",
   title: "Onyx",
   year: 2024,
-  description: "Placeholder description for Onyx project.",
-  roles: [],
-  tags: [],
+  context: "Internship",
+  description: "App for tracking personal growth amongst Work-based learning programs.",
+  roles: ["🎨 UI", "🔎 UX", "💻 DEV"],
+  tags: ["Firebase", "Flutterflow", "Figma"],
   cover,
 };
 

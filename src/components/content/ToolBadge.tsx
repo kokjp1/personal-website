@@ -42,6 +42,7 @@ export const TOOLS: ToolDef[] = [
   { name: 'Node.js/npm', icon: 'devicon:nodejs', group: 'development' },
   { name: 'Express', icon: 'devicon:express', group: 'development' },
   { name: 'Vite', icon: 'devicon:vite', group: 'development' },
+  { name: 'Flutterflow', icon: '/icons/flutterflow.png', group: 'development' },
 
   // Platforms / DB
   { name: 'GitHub', icon: 'devicon:github', group: 'platforms/db' },

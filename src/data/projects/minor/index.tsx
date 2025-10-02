@@ -8,9 +8,10 @@ export const meta: ProjectMeta = {
   slug: "minor",
   title: "Minor",
   year: 2024,
+  context: "CMD",
   description: "Placeholder description for Minor project.",
-  roles: [],
-  tags: [],
+  roles: ["🎨 UI", "🔎 UX"],
+  tags: ["Figma", "Flourish"],
   cover,
 };
 

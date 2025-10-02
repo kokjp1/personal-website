@@ -8,9 +8,10 @@ export const meta: ProjectMeta = {
   slug: "listral",
   title: "Listral",
   year: 2024,
-  description: "Placeholder description for Listral project.",
-  roles: [],
-  tags: [],
+  context: "Personal Project",
+  description: "A media tracker app for keeping up with your favorite shows/movies/games",
+  roles: ["💻 DEV", "🎨 UI"],
+  tags: ["Figma", "React", "Tailwind", "TypeScript", "Supabase"],
   cover,
 };
 

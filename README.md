@@ -15,9 +15,14 @@ JS comment
     /*                                   comment                                  */
     /* -------------------------------------------------------------------------- */
 
-fix: navbar bubble on first load visible on profile pic
-fix: pws tooltip appearing on accordion button aswell as opposed to just the text
-add: command menu with socials / mail / sourcecode / copylink
+ammend: more padding / extension on the footer for mobile (round curvature not filled)
+ammend: overflow-x-hidden (end up freedragging the website on mobile)
+ammend: make the filter tags on the projects page a bit smaller so they fit side by side on each phone (probably based on viewport?)
+ammend: dark mode default
+ammend: recheck layout. crea/ux/ui/dev tag position on project detail page, weird if only 1 tag + 1 tool right below each other
+ammend: back button on project detailpage
+ammend: maybe back to top button
+ammend: add office to toolset
 
 ```
 portfolio

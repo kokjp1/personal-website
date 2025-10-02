@@ -25,13 +25,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body className="bg-background text-foreground min-h-dvh antialiased">
+      <body className="bg-background text-foreground min-h-dvh antialiased overflow-x-hidden">
         <ThemeProvider>
           <div className="flex min-h-dvh flex-col">
             <div className="container mx-auto max-w-3xl px-4">
               <div className="flex items-center justify-between gap-4">
                 <Header />
-                {/* Place the button (CommandPalette) in header if desired */}
               </div>
               <InteractiveGridPattern
                 squares={[25, 25]}

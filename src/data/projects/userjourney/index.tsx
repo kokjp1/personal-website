@@ -8,9 +8,10 @@ export const meta: ProjectMeta = {
   slug: "userjourney",
   title: "User Journey",
   year: 2024,
-  description: "Placeholder description for User Journey project.",
-  roles: [],
-  tags: [],
+  context: "CMD",
+  description: "User Journey about inventing a device to improve sleep quality.",
+  roles: ["🔎 UI"],
+  tags: ["Figma"],
   cover,
 };
 

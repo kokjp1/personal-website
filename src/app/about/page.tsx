@@ -11,12 +11,11 @@ import { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { ImageZoom } from '@/components/ui/shadcn-io/image-zoom';
-import { cn } from '@/lib/utils';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import * as React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+import FsLightbox from 'fslightbox-react';
 
 const traits = [
   '🎨 Creative',
@@ -38,20 +37,45 @@ const carouselImages = [
   { src: '/images/frd5.jpg', alt: 'Friends 5' },
 ];
 
-{
-  /* -------------------------------------------------------------------------- 
-        /                                   Page                                    /
-        -------------------------------------------------------------------------- */
-}
+// NEW: outside‑of‑work gallery sources
+const outsideWorkImages = [
+  { src: '/images/left-pc-setup.jpg', alt: 'Left angle of PC setup' },
+  { src: '/images/frontal-pc-setup.jpg', alt: 'Frontal PC setup' },
+  { src: '/images/right-pc-setup.jpg', alt: 'Right angle of PC setup' },
+  { src: '/images/pc.jpg', alt: 'PC close-up' },
+  { src: '/images/posters.jpg', alt: 'Posters wall' },
+];
+
+
+  
+  {/* -------------------------------------------------------------------------- 
+  /                                   Page                                    /
+  -------------------------------------------------------------------------- */}
 
 export default function AboutPage() {
   const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
   const [value, setValue] = useState<string>('item-2');
   const [galleryHover, setGalleryHover] = useState<number | null>(null);
+
+  const [lightboxController, setLightboxController] = useState<{ toggler: boolean; slide: number }>({
+    toggler: false,
+    slide: 1,
+  });
+
+  const openLightboxAt = (idx: number) =>
+    setLightboxController((c) => ({ toggler: !c.toggler, slide: idx + 1 }));
+
+  // All lightbox sources (carousel first, then outside-of-work)
+  const allLightboxSources = React.useMemo(
+    () => [...carouselImages.map(i => i.src), ...outsideWorkImages.map(i => i.src)],
+    []
+  );
+
   return (
     <main className="text-foreground flex flex-col gap-12 px-5 md:px-8">
-      {/* -------------------------------------------------------------------------- 
-        /                              About me                                    /
+      
+        {/* ------------------------------------------------------------------------- 
+        /                              About me                                     /
         -------------------------------------------------------------------------- */}
 
       <section className="flex max-w-screen-md flex-col gap-4">
@@ -111,19 +135,22 @@ export default function AboutPage() {
           onMouseLeave={plugin.current.reset}
         >
           <CarouselContent className="-ml-4">
-            {carouselImages.map((img) => (
+            {carouselImages.map((img, i) => (
               <CarouselItem key={img.src} className="basis-1/2 pl-4 md:basis-[42%]">
-                <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80')}>
-                  <div className="relative aspect-[4/4] w-full cursor-zoom-in overflow-hidden rounded-lg">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes="(min-width:768px) 42vw, 50vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </ImageZoom>
+                <button
+                  type="button"
+                  aria-label={`Open image ${i + 1} in lightbox`}
+                  onClick={() => openLightboxAt(i)}
+                  className="relative aspect-[4/4] w-full cursor-zoom-in overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="(min-width:768px) 42vw, 50vw"
+                    className="object-cover"
+                  />
+                </button>
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -135,6 +162,14 @@ export default function AboutPage() {
         <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r to-transparent sm:hidden" />
         <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l to-transparent sm:hidden" />
       </div>
+
+      {/* FsLightbox component (carousel + outside-of-work images) */}
+      <FsLightbox
+        toggler={lightboxController.toggler}
+        slide={lightboxController.slide}
+        sources={allLightboxSources}
+        types={allLightboxSources.map(() => 'image')}
+      />
 
       {/* -------------------------------------------------------------------------- 
       /                              Outside of work                               /
@@ -152,58 +187,34 @@ export default function AboutPage() {
           keep me curious and give me fresh perspectives that often feed back into my design and development work.
         </p>
         <div className="grid grid-cols-6 gap-4">
-          {[
-            { src: '/images/left-pc-setup.jpg', alt: 'Left angle of PC setup' },
-            { src: '/images/frontal-pc-setup.jpg', alt: 'Frontal PC setup' },
-            { src: '/images/right-pc-setup.jpg', alt: 'Right angle of PC setup' },
-          ].map((img, i) => (
-            <figure
-              key={img.src}
-              className={[
-                'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-2',
-                'transition duration-300',
-                galleryHover !== null && galleryHover !== i ? 'scale-[0.985] blur-[1px] brightness-[0.72]' : '',
-                'hover:blur-0 hover:scale-100 hover:brightness-100',
-              ].join(' ')}
-              onMouseEnter={() => setGalleryHover(i)}
-              onMouseLeave={() => setGalleryHover(null)}
-            >
-              <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/15')}>
-                <div className="relative aspect-[1/1] cursor-zoom-in overflow-hidden rounded">
-                  <Image src={img.src} alt={img.alt} fill sizes="800px" className="object-cover" priority={false} />
-                </div>
-              </ImageZoom>
-            </figure>
-          ))}
-
-          {[
-            { src: '/images/pc.jpg', alt: 'PC close-up' },
-            { src: '/images/posters.jpg', alt: 'Posters wall' },
-          ].map((img, j) => {
-            const idx = 3 + j;
+          {outsideWorkImages.map((img, idx) => {
+            const globalIndex = carouselImages.length + idx; // offset after carousel images
+            const baseCols =
+              idx < 3
+                ? 'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-2'
+                : 'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-3';
             return (
               <figure
                 key={img.src}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open ${img.alt} in lightbox`}
+                onClick={() => openLightboxAt(globalIndex)}
+                onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && openLightboxAt(globalIndex)}
                 className={[
-                  'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-3',
-                  'transition duration-300',
-                  galleryHover !== null && galleryHover !== idx ? 'scale-[0.985] blur-[1px] brightness-[0.72]' : '',
-                  'hover:blur-0 hover:scale-100 hover:brightness-100',
+                  baseCols,
+                  'cursor-zoom-in transition duration-300',
+                  galleryHover !== null && galleryHover !== idx
+                    ? 'scale-[0.985] blur-[1px] brightness-[0.72]'
+                    : '',
+                  'hover:blur-0 hover:scale-100 hover:brightness-100 focus:outline-none focus:ring-2 focus:ring-foreground/40'
                 ].join(' ')}
                 onMouseEnter={() => setGalleryHover(idx)}
                 onMouseLeave={() => setGalleryHover(null)}
               >
-                <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/15')}>
-                  <div className="relative aspect-[1/1] cursor-zoom-in overflow-hidden rounded">
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes="(min-width:768px) 50vw, 100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </ImageZoom>
+                <div className="relative aspect-[1/1] overflow-hidden rounded">
+                  <Image src={img.src} alt={img.alt} fill sizes="800px" className="object-cover" />
+                </div>
               </figure>
             );
           })}
@@ -247,7 +258,6 @@ export default function AboutPage() {
                     Institute.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                    <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/50')}>
                       <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
                         <Image
                           src="/images/cambridge.jpg"
@@ -258,7 +268,6 @@ export default function AboutPage() {
                           priority={false}
                         />
                       </div>
-                    </ImageZoom>
                   </div>
                 </div>
               </AccordionContent>
@@ -273,7 +282,6 @@ export default function AboutPage() {
                     of your application, or when you want to open specific sections based on user actions elsewhere.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                    <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/50')}>
                       <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
                         <Image
                           src="/images/propedeuse.jpg"
@@ -284,7 +292,6 @@ export default function AboutPage() {
                           priority={false}
                         />
                       </div>
-                    </ImageZoom>
                   </div>
                 </div>
               </AccordionContent>
@@ -313,7 +320,6 @@ export default function AboutPage() {
                     game company.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                    <ImageZoom backdropClassName={cn('[&_[data-rmiz-modal-overlay="visible"]]:bg-black/50')}>
                       <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
                         <Image
                           src="/images/PWSprijs.jpg"
@@ -324,7 +330,6 @@ export default function AboutPage() {
                           priority={false}
                         />
                       </div>
-                    </ImageZoom>
                   </div>
                 </div>
               </AccordionContent>

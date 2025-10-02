@@ -5,9 +5,10 @@ export const meta: ProjectMeta = {
   slug: "whackamole",
   title: "Whack-A-Mole",
   year: 2024,
-  description: "Placeholder description for Whack-A-Mole project.",
-  roles: [],
-  tags: [],
+  context: "CMD",
+  description: "Project to learn more about Javascript",
+  roles: ["💻 DEV"],
+  tags: ["HTML", "CSS", "JavaScript"],
   cover,
 };
 
