@@ -1,5 +1,5 @@
 import * as React from "react";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
 
 import cover from "./gameboxd.png";
@@ -23,15 +23,20 @@ export const meta: ProjectMeta = {
   links: [{ label: "Figma file", href: "https://github.com/yourusername/gameboxd" }],
 };
 
+interface GalleryImage {
+  src: StaticImageData;
+  alt: string;
+  caption: string;
+}
+
 export default function Body() {
-  const images: { src: any; alt: string; caption: string }[] = [
+  const images: GalleryImage[] = [
     { src: screenHome, alt: "Home feed screen", caption: "Home feed with activity and recommended games" },
     { src: screenProfile, alt: "Profile screen", caption: "User profile with stats and recent activity" },
     { src: screenCollection, alt: "Collection screen", caption: "User owned / tracked game collection" },
     { src: screenReviews, alt: "Reviews screen", caption: "Game reviews & rating interface" },
     { src: screenChats, alt: "Chats screen", caption: "Direct messages / chat overview" },
     { src: screenLogin, alt: "Login screen", caption: "Authentication entry (login / signup)" },
-    // Extra (exposition physical card) – shown below separately
   ];
 
   return (
@@ -50,41 +55,39 @@ export default function Body() {
       </ul>
 
       <h2 className="mt-10 text-lg font-semibold">result</h2>
-      {/* Mobile: 2 columns; Desktop unchanged (3). Adjust gap smaller on mobile */}
       <div className="mt-4 grid gap-4 grid-cols-2 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {images.map(img => (
           <figure
             key={img.alt}
             className="group relative overflow-hidden rounded-xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-900/60 p-2 sm:p-3 shadow-sm"
           >
-              <div className="relative aspect-[9/16] w-full overflow-hidden rounded-md cursor-zoom-in">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 50vw"
-                  placeholder="blur"
-                />
-              </div>
+            <div className="relative aspect-[9/16] w-full overflow-hidden rounded-md cursor-zoom-in">
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 50vw"
+                placeholder="blur"
+              />
+            </div>
             <figcaption className="mt-2 text-[10px] sm:text-xs text-muted-foreground leading-snug">
               {img.caption}
             </figcaption>
           </figure>
         ))}
 
-        {/* Exposition / physical artifact spans full width (2 cols mobile / 2 cols sm / 3 cols lg) */}
         <figure className="group relative overflow-hidden rounded-xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-900/60 p-2 sm:p-3 shadow-sm col-span-2 lg:col-span-3">
-            <div className="relative aspect-[16/7] w-full overflow-hidden rounded-md cursor-zoom-in">
-              <Image
-                src={exposition}
-                alt="Exposition display with NFC profile card"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                sizes="100vw"
-                placeholder="blur"
-              />
-            </div>
+          <div className="relative aspect-[16/7] w-full overflow-hidden rounded-md cursor-zoom-in">
+            <Image
+              src={exposition}
+              alt="Exposition display with NFC profile card"
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              sizes="100vw"
+              placeholder="blur"
+            />
+          </div>
           <figcaption className="mt-2 text-[10px] sm:text-xs text-muted-foreground leading-snug">
             Exposition setup: physical NFC profile card linking directly into the Gameboxd profile view.
           </figcaption>
@@ -92,4 +95,5 @@ export default function Body() {
       </div>
     </>
   );
+
 }

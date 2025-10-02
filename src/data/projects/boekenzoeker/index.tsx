@@ -1,5 +1,4 @@
 import * as React from "react";
-import Image from "next/image";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
 import { ProjectGallery } from "@/components/lightbox/ProjectGallery";
 

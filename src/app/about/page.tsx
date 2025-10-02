@@ -46,6 +46,13 @@ const outsideWorkImages = [
   { src: '/images/posters.jpg', alt: 'Posters wall' },
 ];
 
+// NEW: award images (for lightbox indexing)
+const awardImages = [
+  { src: '/images/cambridge.jpg', alt: 'Cambridge certificate' },
+  { src: '/images/propedeuse.jpg', alt: 'Propedeutic diploma' },
+  { src: '/images/PWSprijs.jpg', alt: 'PWS prize' },
+];
+
 
   
   {/* -------------------------------------------------------------------------- 
@@ -65,11 +72,19 @@ export default function AboutPage() {
   const openLightboxAt = (idx: number) =>
     setLightboxController((c) => ({ toggler: !c.toggler, slide: idx + 1 }));
 
-  // All lightbox sources (carousel first, then outside-of-work)
+  // All lightbox sources (carousel + outside-of-work + awards)
   const allLightboxSources = React.useMemo(
-    () => [...carouselImages.map(i => i.src), ...outsideWorkImages.map(i => i.src)],
+    () => [
+      ...carouselImages.map(i => i.src),
+      ...outsideWorkImages.map(i => i.src),
+      ...awardImages.map(i => i.src)
+    ],
     []
   );
+
+  // Precalculate index offsets
+  const outsideWorkOffset = carouselImages.length;
+  const awardsOffset = carouselImages.length + outsideWorkImages.length;
 
   return (
     <main className="text-foreground flex flex-col gap-12 px-5 md:px-8">
@@ -258,16 +273,21 @@ export default function AboutPage() {
                     Institute.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                      <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
-                        <Image
-                          src="/images/cambridge.jpg"
-                          alt="Cambridge certificate"
-                          fill
-                          sizes="400px"
-                          className="object-cover"
-                          priority={false}
-                        />
-                      </div>
+                    <button
+                      type="button"
+                      aria-label="Open Cambridge certificate image"
+                      onClick={() => openLightboxAt(awardsOffset + 0)}
+                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                    >
+                      <Image
+                        src="/images/cambridge.jpg"
+                        alt="Cambridge certificate"
+                        fill
+                        sizes="400px"
+                        className="object-cover"
+                        priority={false}
+                      />
+                    </button>
                   </div>
                 </div>
               </AccordionContent>
@@ -282,16 +302,21 @@ export default function AboutPage() {
                     of your application, or when you want to open specific sections based on user actions elsewhere.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                      <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
-                        <Image
-                          src="/images/propedeuse.jpg"
-                          alt="Propedeutic diploma"
-                          fill
-                          sizes="400px"
-                          className="object-cover"
-                          priority={false}
-                        />
-                      </div>
+                    <button
+                      type="button"
+                      aria-label="Open Propedeutic diploma image"
+                      onClick={() => openLightboxAt(awardsOffset + 1)}
+                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                    >
+                      <Image
+                        src="/images/propedeuse.jpg"
+                        alt="Propedeutic diploma"
+                        fill
+                        sizes="400px"
+                        className="object-cover"
+                        priority={false}
+                      />
+                    </button>
                   </div>
                 </div>
               </AccordionContent>
@@ -320,16 +345,21 @@ export default function AboutPage() {
                     game company.
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
-                      <div className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded">
-                        <Image
-                          src="/images/PWSprijs.jpg"
-                          alt="PWS prize"
-                          fill
-                          sizes="400px"
-                          className="object-cover"
-                          priority={false}
-                        />
-                      </div>
+                    <button
+                      type="button"
+                      aria-label="Open PWS prize image"
+                      onClick={() => openLightboxAt(awardsOffset + 2)}
+                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                    >
+                      <Image
+                        src="/images/PWSprijs.jpg"
+                        alt="PWS prize"
+                        fill
+                        sizes="400px"
+                        className="object-cover"
+                        priority={false}
+                      />
+                    </button>
                   </div>
                 </div>
               </AccordionContent>
