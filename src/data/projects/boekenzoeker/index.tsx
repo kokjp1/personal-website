@@ -1,6 +1,7 @@
 import * as React from "react";
 import Image from "next/image";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
+import { ProjectGallery } from "@/components/lightbox/ProjectGallery";
 
 import cover from "./boekenzoekercover.jpg";
 import screenHome from "./boekenzoeker_home.jpg";
@@ -18,11 +19,11 @@ export const meta: ProjectMeta = {
   roles: ["🔎 UX", "🎨 UI"],
   tags: ["Figma"],
   cover,
-  links: [{ label: "Figma file", href: "https://www.figma.com/file/3mX4bX4pX4pX4pX4pX4pX4/Boekenzoeker?type=design&node-id=0-1&t=example" }],
+  links: [{ label: "Figma Prototype", href: "https://www.figma.com/proto/zk8okk3CbdqdK9JOBfz6IS/Boekenzoeker---VID?node-id=0-1&t=XwndegwpkqNBZ8ut-1" }],
 };
 
 export default function Body() {
-  const images: { src: any; alt: string; caption: string }[] = [
+  const galleryImages = [
     { src: screenHome, alt: "Home feed screen", caption: "Home feed with recommended & trending books" },
     { src: screenForm, alt: "Add book form", caption: "Form to add or edit a book entry" },
     { src: screenWishlist, alt: "Wishlist screen", caption: "User wishlist with priority indicators" },
@@ -43,29 +44,15 @@ export default function Body() {
         <li>Keep the context (an ipad terminal in the library) in mind while designing</li>
       </ul>
 
-      <h2 className="mt-10 text-lg font-semibold">result</h2>
-      <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {images.map((img) => (
-          <figure
-            key={img.alt}
-            className="group relative overflow-hidden rounded-xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-900/60 p-3 shadow-sm"
-          >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md cursor-zoom-in">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 100vw"
-                  placeholder="blur"
-                />
-              </div>
-            <figcaption className="mt-2 text-xs text-muted-foreground leading-snug">
-              {img.caption}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <h2 className="mt-10 mb-4 text-lg font-semibold">result</h2>
+      <ProjectGallery
+        splash={{
+          src: screenHome,
+          alt: "Home feed screen",
+          caption: "Primary browsing hub introducing recommendations."
+        }}
+        images={galleryImages}
+      />
     </>
   );
 }
