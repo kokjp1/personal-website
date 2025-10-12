@@ -82,8 +82,6 @@ export default function AboutPage() {
     []
   );
 
-  // Precalculate index offsets
-  const outsideWorkOffset = carouselImages.length;
   const awardsOffset = carouselImages.length + outsideWorkImages.length;
 
   return (
