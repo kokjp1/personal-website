@@ -1,17 +1,17 @@
-import * as React from "react";
-import { ProjectMeta } from "@/components/content/ProjectLayout";
+import * as React from 'react';
+import { ProjectMeta } from '@/components/content/ProjectLayout';
 // import { Figure } from "@/components/content/Figure";
 
-import cover from "./minorcover.jpg";
+import cover from './minorcover.jpg';
 
 export const meta: ProjectMeta = {
-  slug: "minor",
-  title: "Minor",
+  slug: 'minor',
+  title: 'Minor',
   year: 2024,
-  context: "CMD",
-  description: "Placeholder description for Minor project.",
-  roles: ["🎨 UI", "🔎 UX"],
-  tags: ["Figma", "Flourish"],
+  context: 'CMD',
+  description: 'Placeholder description for Minor project.',
+  roles: ['🎨 UI', '🔎 UX'],
+  tags: ['Figma', 'Flourish'],
   cover,
 };
 

@@ -1,50 +1,69 @@
-import * as React from "react";
-import { ProjectMeta } from "@/components/content/ProjectLayout";
-// import { Figure } from "@/components/content/Figure";
+import * as React from 'react';
+import { ProjectMeta } from '@/components/content/ProjectLayout';
+import { InfoIcon } from 'lucide-react';
+import { ProjectGallery } from '@/components/lightbox/ProjectGallery';
 
-import cover from "./onyxcover.jpg";
+import cover from './onyxcover.jpg';
+import screenHiFi from './notificationhifi.png';
+import screenWireframes from './notificationwireframes.png';
+import figmaWireframe from './figmawireframe.png';
+import uxmap from './uxmap.png';
+import figmaFlows from './figmaflows.png';
 
 export const meta: ProjectMeta = {
-  slug: "onyx",
-  title: "Onyx",
+  slug: 'onyx',
+  title: 'Onyx',
   year: 2024,
-  context: "Internship",
-  description: "App for tracking personal growth amongst Work-based learning programs.",
-  roles: ["🎨 UI", "🔎 UX", "💻 DEV"],
-  tags: ["Firebase", "Flutterflow", "Figma"],
+  context: 'Internship',
+  description: 'App for tracking personal growth amongst Work-based learning programs. (MBO)',
+  roles: ['🎨 UI', '🔎 UX', '💻 DEV'],
+  tags: ['Firebase', 'Flutterflow', 'Figma'],
   cover,
 };
 
 export default function Body() {
+  const galleryImages = [
+    { src: uxmap, alt: 'UX map', caption: 'UX map and flows' },
+    { src: figmaFlows, alt: 'Flows & components', caption: 'Component exploration & flows' },
+    { src: figmaWireframe, alt: 'Wireframe / error', caption: 'Wireframe / empty state' },
+    { src: screenWireframes, alt: 'Notification wireframes', caption: 'Wireframes for the notification centre' },
+  ];
+
   return (
-  <>
-  <h2 className="text-lg font-semibold">overview</h2>
+    <>
+      <h2 className="text-lg font-semibold">overview</h2>
       <p className="mt-3 text-sm leading-6">
-        Onyx is a work‑based learning companion that lets students and coaches set goals, track growth, and reflect on progress.
-        I joined during the early product definition and shaped the experience end‑to‑end: information architecture, UI system,
-        data model, and an interactive prototype in Flutterflow backed by Firebase.
+        Onyx is a work‑based learning companion that lets students and coaches set goals, track growth, and reflect on
+        progress. I joined after the base for the app was already set up. My main contributions were additions to the
+        app.
       </p>
 
-      <h2 className="mt-8 text-lg font-semibold">my role</h2>
-      <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
-        <li>Mapped the program structure into a <span className="font-medium">goal → evidence → feedback</span> data model.</li>
-        <li>Designed a compact, scalable <span className="font-medium">component library</span> for cards, progress chips, and trackers.</li>
-        <li>Built a working prototype in <span className="font-medium">Flutterflow</span> with Firebase Auth + Firestore collections.</li>
-        <li>Ran lightweight <span className="font-medium">usability tests</span> with students and mentors; iterated on onboarding and the review flow.</li>
+      <h2 className="mt-8 text-lg font-semibold">contributions</h2>
+      <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
+        <li>UX Mapping / user flows</li>
+        <li>Notification logic & designs, as well as the notification centre</li>
+        <li>
+          Content Management System (CMS) for the app. Ideation, UX, wireframes. Unfortunately my internship ended
+          before I could continue developing it.
+        </li>
       </ul>
-
-      <h2 className="mt-8 text-lg font-semibold">process</h2>
-      <p className="mt-3 text-sm leading-6">
-        We started from interviews to understand what “progress” means per stakeholder. I then sketched flows for creating learning goals,
-        attaching evidence (notes, uploads, links), and requesting feedback. In Flutterflow I implemented role‑based navigation (student / coach),
-        collection security rules, and list/detail patterns that scale to many goals without becoming noisy.
-      </p>
 
       <h2 className="mt-8 text-lg font-semibold">result</h2>
       <p className="mt-3 text-sm leading-6">
-        The prototype demonstrates the full loop: set a goal → add evidence → request/receive feedback → reflect.
-        It’s ready to be extended into a pilot with real cohorts. Below is a snapshot from an internal build.
+        <InfoIcon className="mr-2 inline h-4 w-4" /> Some of my work isn't publicly available, or not presentable yet.
       </p>
+
+      <div className="mt-6">
+        <ProjectGallery
+          splash={{
+            src: screenHiFi,
+            alt: 'Notifications in-app',
+            caption: 'In-app notifications & summary',
+          }}
+          images={galleryImages}
+          gridClasses="grid-cols-2 md:grid-cols-3"
+        />
+      </div>
     </>
   );
 }

@@ -1,28 +1,28 @@
-import { ProjectMeta } from "@/components/content/ProjectLayout";
-import cover from "./whackamole.png";
-import { ProjectGallery } from "@/components/lightbox/ProjectGallery";
-import homeImg from "./home.png";
-import gameImg from "./game.png";
-import gameActiveImg from "./gameactive.png";
-import finishedImg from "./finished.png";
-import { SingleCodeBlock } from "@/components/content/SingleCodeBlock";
+import { ProjectMeta } from '@/components/content/ProjectLayout';
+import cover from './whackamole.png';
+import { ProjectGallery } from '@/components/lightbox/ProjectGallery';
+import homeImg from './home.png';
+import gameImg from './game.png';
+import gameActiveImg from './gameactive.png';
+import finishedImg from './finished.png';
+import { SingleCodeBlock } from '@/components/content/SingleCodeBlock';
 
 export const meta: ProjectMeta = {
-  slug: "whackamole",
-  title: "Whack-A-Mole",
+  slug: 'whackamole',
+  title: 'Whack-A-Mole',
   year: 2024,
-  context: "CMD",
-  description: "Project to learn more about Javascript",
-  roles: ["💻 DEV"],
-  tags: ["HTML", "CSS", "JavaScript"],
+  context: 'CMD',
+  description: 'Project to learn more about Javascript',
+  roles: ['💻 DEV'],
+  tags: ['HTML', 'CSS', 'JavaScript'],
   cover,
 };
 
 export default function Body() {
   const galleryImages = [
-    { src: gameImg, alt: "Gameplay grid", caption: "Gameplay — grid with randomized spawns" },
-    { src: gameActiveImg, alt: "Active mole highlight", caption: "Active state — visible mole + hit feedback" },
-    { src: finishedImg, alt: "Game over screen", caption: "Finished round — score summary" },
+    { src: gameImg, alt: 'Gameplay grid', caption: 'Gameplay — grid with randomized spawns' },
+    { src: gameActiveImg, alt: 'Active mole highlight', caption: 'Active state — visible mole + hit feedback' },
+    { src: finishedImg, alt: 'Game over screen', caption: 'Finished round — score summary' },
   ];
 
   // Snippet 1 (JS): endGame
@@ -83,11 +83,14 @@ export default function Body() {
     <>
       <h2 className="text-lg font-semibold">overview</h2>
       <p className="mt-3 text-sm leading-6">
-        A browser‑based Whack‑A‑Mole game built with vanilla JavaScript, HTML, and CSS to practice DOM manipulation. Introductory course to Javascript. I chose to make a whack-a-mole game. The idea behind it is that you have some CSS classes with visibility styling for the game board and heads, and use Javascript to apply and remove those classes based on some rules. (like when you hit a head, or the timer runs out) 
+        A browser‑based Whack‑A‑Mole game built with vanilla JavaScript, HTML, and CSS to practice DOM manipulation.
+        Introductory course to Javascript. I chose to make a whack-a-mole game. The idea behind it is that you have some
+        CSS classes with visibility styling for the game board and heads, and use Javascript to apply and remove those
+        classes based on some rules. (like when you hit a head, or the timer runs out)
       </p>
 
       <h2 className="mt-8 text-lg font-semibold">goal</h2>
-      <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
+      <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
         <li>Semantic HTML, CSS & Javascript code</li>
         <li>Experimenting with Javascript DOM manipulation</li>
         <li>Understanding how the DOM structure/javascript fundamentally works</li>
@@ -96,9 +99,14 @@ export default function Body() {
       <h2 className="mt-8 text-lg font-semibold">code snippets</h2>
       <div className="mt-3 space-y-6">
         <SingleCodeBlock language="javascript" filename="endGame.js" code={jsSnippetEndGame} />
-        <p className="text-sm">The logic that should apply when the game ends, basically resetting the game state and hiding all berry's</p>
+        <p className="text-sm">
+          The logic that should apply when the game ends, basically resetting the game state and hiding all berry's
+        </p>
         <SingleCodeBlock language="javascript" filename="spawnBerry.js" code={jsSnippetSpawnBerry} />
-        <p className="text-sm">The logic that should apply when a berry is spawned, including randomization. This function primarily serves to apply the appropriate CSS classes to the berry's.</p>
+        <p className="text-sm">
+          The logic that should apply when a berry is spawned, including randomization. This function primarily serves
+          to apply the appropriate CSS classes to the berry's.
+        </p>
         <SingleCodeBlock language="css" filename="board.css" code={cssSnippet} />
         <p className="text-sm">CSS Class for the holes (reusable, applied to each), used to modify the game board.</p>
       </div>
@@ -107,7 +115,7 @@ export default function Body() {
 
       <div className="mt-6">
         <ProjectGallery
-          splash={{ src: homeImg, alt: "Home screen", caption: "Home — start game and view score" }}
+          splash={{ src: homeImg, alt: 'Home screen', caption: 'Home — start game and view score' }}
           images={galleryImages}
           gridClasses="grid-cols-2 md:grid-cols-3"
         />

@@ -1,36 +1,36 @@
-import * as React from "react";
-import type { ProjectMeta } from "@/components/content/ProjectLayout";
-import { ProjectGallery } from "@/components/lightbox/ProjectGallery";
+import * as React from 'react';
+import type { ProjectMeta } from '@/components/content/ProjectLayout';
+import { ProjectGallery } from '@/components/lightbox/ProjectGallery';
 
-import cover from "./gamescoutcover.jpg";
-import screenBookmarks from "./gamescoutbookmarks.png";
-import screenDetail from "./gamescoutdetail.png";
-import screenHome from "./gamescouthome.png";
-import screenRegister from "./gamescoutregister.png";
-import screenResults from "./gamescoutresults.png";
-import screenSignin from "./gamescoutsignin.png";
-import screenSplash from "./gamescoutsplash.png";
+import cover from './gamescoutcover.jpg';
+import screenBookmarks from './gamescoutbookmarks.png';
+import screenDetail from './gamescoutdetail.png';
+import screenHome from './gamescouthome.png';
+import screenRegister from './gamescoutregister.png';
+import screenResults from './gamescoutresults.png';
+import screenSignin from './gamescoutsignin.png';
+import screenSplash from './gamescoutsplash.png';
 
 export const meta: ProjectMeta = {
-  slug: "gamescout",
-  title: "GameScout",
+  slug: 'gamescout',
+  title: 'GameScout',
   year: 2024,
-  context: "CMD",
-  description: "A social platform for gamers to share and discover video games.",
-  roles: ["🔎 UX", "🎨 UI"],
-  tags: ["Figma"],
+  context: 'CMD',
+  description: 'A social platform for gamers to share and discover video games.',
+  roles: ['🔎 UX', '🎨 UI'],
+  tags: ['Figma'],
   cover,
-  links: [{ label: "Source code", href: "https://github.com/kokjp1/Gamescout" }],
+  links: [{ label: 'Source code', href: 'https://github.com/kokjp1/Gamescout' }],
 };
 
 export default function Body() {
   const galleryImages = [
-    { src: screenHome, alt: "Home feed screen", caption: "Home feed with activity and recommended games" },
-    { src: screenDetail, alt: "Game detail screen", caption: "Detailed game view with metadata & actions" },
-    { src: screenResults, alt: "Search results screen", caption: "Search results listing filtered games" },
-    { src: screenBookmarks, alt: "Bookmarks screen", caption: "Saved / bookmarked games collection" },
-    { src: screenRegister, alt: "Register screen", caption: "Account creation interface" },
-    { src: screenSignin, alt: "Sign in screen", caption: "Authentication entry" },
+    { src: screenHome, alt: 'Home feed screen', caption: 'Home feed with activity and recommended games' },
+    { src: screenDetail, alt: 'Game detail screen', caption: 'Detailed game view with metadata & actions' },
+    { src: screenResults, alt: 'Search results screen', caption: 'Search results listing filtered games' },
+    { src: screenBookmarks, alt: 'Bookmarks screen', caption: 'Saved / bookmarked games collection' },
+    { src: screenRegister, alt: 'Register screen', caption: 'Account creation interface' },
+    { src: screenSignin, alt: 'Sign in screen', caption: 'Authentication entry' },
   ];
 
   return (
@@ -42,7 +42,7 @@ export default function Body() {
       </p>
 
       <h2 className="mt-10 text-lg font-semibold">goal</h2>
-      <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
+      <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
         <li>Create a cohesive mobile interface in Figma.</li>
         <li>Bridge a physical NFC card with a digital profile experience.</li>
         <li>Demonstrate the concept at an exposition.</li>
@@ -53,8 +53,8 @@ export default function Body() {
       <ProjectGallery
         splash={{
           src: screenSplash,
-          alt: "Splash / onboarding screen",
-          caption: "Splash / onboarding experience introducing GameScout.",
+          alt: 'Splash / onboarding screen',
+          caption: 'Splash / onboarding experience introducing GameScout.',
         }}
         images={galleryImages}
       />

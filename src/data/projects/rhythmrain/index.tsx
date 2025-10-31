@@ -40,9 +40,11 @@ export default function Body() {
         project I also hoped to explore Figma UI Component Libraries. In this particular case I used{' '}
         <a
           href="https://www.untitledui.com/"
-          className="rounded-sm px-1 !text-blue-600 transition-colors duration-200 ease-in-out hover:bg-blue-600 hover:!text-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          className="rounded-sm px-1 !text-blue-600 transition-colors duration-200 ease-in-out hover:bg-blue-600 hover:!text-white focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        >
           Untitled UI
-        </a>.
+        </a>
+        .
       </p>
       <h2 className="mt-8 text-lg font-semibold">design/features</h2>
       <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
@@ -61,7 +63,7 @@ export default function Body() {
         <ProjectGallery
           splash={{ src: home, alt: 'Home screen', caption: 'Home — play, recent, and quick start' }}
           images={galleryImages}
-          gridClasses="grid-cols-2 md:grid-cols-3" 
+          gridClasses="grid-cols-2 md:grid-cols-3"
         />
       </div>
     </>
