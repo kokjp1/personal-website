@@ -5,7 +5,7 @@ import { ProjectGallery } from "@/components/lightbox/ProjectGallery";
 export const meta: ProjectMeta = {
   slug: "personalprojects",
   title: "Personal Projects",
-  year: 2024,
+  year: 2025,
   context: "Personal Project",
   description: "Personal projects I've worked on in my free time.",
   roles: ["✨ CREA"],
@@ -49,23 +49,16 @@ export default function Body() {
 
       <h2 className="text-lg font-semibold">overview</h2>
       <p className="mt-3 text-sm leading-6">
-        A living collection of small experiments—micro‑sites, visuals, and interaction prototypes.
-        These projects are my playground to try ideas quickly, keep momentum, and learn new tools without the pressure of a big scope.
+        This page represents a collection of design/creative work I've created in my free time. These works mostly consist of poster designs and experiments in Adobe Tools (PS/AE/PR/AI)
       </p>
 
       <h2 className="mt-8 text-lg font-semibold">themes</h2>
       <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
-        <li>Fast iterations with simple constraints (one‑evening builds).</li>
-        <li>Explorations in <span className="font-medium">motion, layout, and color</span>.</li>
-        <li>Code sketches to validate interaction patterns before using them in larger work.</li>
+        <li>Experiments in Photoshop with effects such as glow, pattern overlays, blending modes and more.</li>
+        <li>Poster Designs, made in Photoshop to learn more about composition, typography, color and other visual effects.</li>
       </ul>
 
-      <h2 className="mt-8 text-lg font-semibold">result</h2>
-      <p className="mt-3 text-sm leading-6">
-        The set is deliberately eclectic—some pieces are polished, others are only proofs‑of‑concept.
-        Together they show range and curiosity. I rotate new studies in as I go.
-      </p>
-      <h2 className="mt-10 mb-4 text-lg font-semibold">result</h2>
+      <h2 className="mt-10 mb-4 text-lg font-semibold">results</h2>
       <ProjectGallery
         splash={{
           src: esotsmPoster,

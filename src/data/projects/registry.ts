@@ -1,5 +1,3 @@
-// Registry of project TSX modules (each exports: meta + default Body component)
-
 import type { ComponentType } from "react";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
 
@@ -14,6 +12,7 @@ import * as personalprojects from "./personalprojects/index";
 import * as rhythmrain from "./rhythmrain/index";
 import * as userjourney from "./userjourney/index";
 import * as whackamole from "./whackamole/index";
+import * as portfoliov3 from "./portfoliov3/index";
 
 type ProjectModule = {
   meta: ProjectMeta;
@@ -40,6 +39,7 @@ const rawModules = [
   rhythmrain,
   userjourney,
   whackamole,
+  portfoliov3,
 ];
 
 // Filter (in case a folder is missing an index.tsx)

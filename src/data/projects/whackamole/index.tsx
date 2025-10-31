@@ -83,27 +83,27 @@ export default function Body() {
     <>
       <h2 className="text-lg font-semibold">overview</h2>
       <p className="mt-3 text-sm leading-6">
-        A classic Whack‑A‑Mole built to practice vanilla JavaScript: DOM updates, timing, state, and accessibility.
+        A browser‑based Whack‑A‑Mole game built with vanilla JavaScript, HTML, and CSS to practice DOM manipulation. Introductory course to Javascript. I chose to make a whack-a-mole game. The idea behind it is that you have some CSS classes with visibility styling for the game board and heads, and use Javascript to apply and remove those classes based on some rules. (like when you hit a head, or the timer runs out) 
       </p>
 
-      <h2 className="mt-8 text-lg font-semibold">what I built</h2>
+      <h2 className="mt-8 text-lg font-semibold">goal</h2>
       <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
-        <li>Game loop with randomized spawn timing and grid positions.</li>
-        <li>Score, combo, and a session timer with pause/resume.</li>
-        <li>Keyboard support and focus management for playable without a mouse.</li>
+        <li>Semantic HTML, CSS & Javascript code</li>
+        <li>Experimenting with Javascript DOM manipulation</li>
+        <li>Understanding how the DOM structure/javascript fundamentally works</li>
       </ul>
 
       <h2 className="mt-8 text-lg font-semibold">code snippets</h2>
       <div className="mt-3 space-y-6">
         <SingleCodeBlock language="javascript" filename="endGame.js" code={jsSnippetEndGame} />
+        <p className="text-sm">The logic that should apply when the game ends, basically resetting the game state and hiding all berry's</p>
         <SingleCodeBlock language="javascript" filename="spawnBerry.js" code={jsSnippetSpawnBerry} />
+        <p className="text-sm">The logic that should apply when a berry is spawned, including randomization. This function primarily serves to apply the appropriate CSS classes to the berry's.</p>
         <SingleCodeBlock language="css" filename="board.css" code={cssSnippet} />
+        <p className="text-sm">CSS Class for the holes (reusable, applied to each), used to modify the game board.</p>
       </div>
 
       <h2 className="mt-8 text-lg font-semibold">result</h2>
-      <p className="mt-3 text-sm leading-6">
-        A clean, replayable mini‑game that cemented timing and event‑handling basics.
-      </p>
 
       <div className="mt-6">
         <ProjectGallery

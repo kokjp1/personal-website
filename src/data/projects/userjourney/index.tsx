@@ -21,16 +21,19 @@ export default function Body() {
 
       <h2 className="text-lg font-semibold">overview</h2>
       <p className="mt-3 text-sm leading-6">
-        A user‑journey mapping exercise that turns interviews and observations into a shared, visual narrative.
-        The artifact highlights emotions, pain points, and opportunities across stages.
+        As part of a bigger (group) project, I was tasked to come up with a User Journey (and Persona) to help with the research stage of the project, and get a better understanding of the project context. With this User Journey we can identify pain points, oppertunies and other insights. These will help us come up with a solution to improve Emma's sleep quality."
       </p>
 
-      <h2 className="mt-8 text-lg font-semibold">approach</h2>
+      <h2 className="mt-8 text-lg font-semibold">Goal</h2>
       <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
-        <li>Synthesized quotes and moments into a stage‑based journey with <span className="font-medium">swimlanes</span> for user actions, frontstage UI, and backstage processes.</li>
-        <li>Annotated <span className="font-medium">moments‑that‑matter</span> and translated them into opportunity statements.</li>
-        <li>Delivered a tidy visual system so teammates can update the map as research grows.</li>
-      </ul>
+        <li>The goal of this user Journey is to visualize the nighttime routine of "<em>Emma</em>" so that we can gather valuable insights.</li>
+      </ul> 
+
+      {/* <h2 className="mt-8 text-lg font-semibold">approach</h2>
+      <ul className="mt-2 list-disc pl-6 space-y-1 text-sm">
+        <li>Came up with a color palette to keep a consistent & professional style across all research deliverables</li>
+        <li>Created a User Journey in Figma, visualizing Emma's nighttime routine</li>
+      </ul> */}
     </>
   );
 }

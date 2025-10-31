@@ -24,6 +24,9 @@ ammend: back button on project detailpage
 ammend: maybe back to top button
 ammend: add office to toolset
 
+add: "what would i do now, if i remade the project, 1, 2 or 3 years later?"
+add: "more process notes"
+
 ```
 portfolio
 ├─ .prettierrc

@@ -16,5 +16,5 @@ export const meta: ProjectMeta = {
 };
 
 export default function Body() {
-  return <p>Minor case study coming soon.</p>;
+  return <p>Minor case study coming soon. ⌛</p>;
 }
