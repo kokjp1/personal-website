@@ -53,11 +53,11 @@ const awardImages = [
   { src: '/images/PWSprijs.jpg', alt: 'PWS prize' },
 ];
 
-
-  
-  {/* -------------------------------------------------------------------------- 
+{
+  /* -------------------------------------------------------------------------- 
   /                                   Page                                    /
-  -------------------------------------------------------------------------- */}
+  -------------------------------------------------------------------------- */
+}
 
 export default function AboutPage() {
   const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
@@ -69,15 +69,14 @@ export default function AboutPage() {
     slide: 1,
   });
 
-  const openLightboxAt = (idx: number) =>
-    setLightboxController((c) => ({ toggler: !c.toggler, slide: idx + 1 }));
+  const openLightboxAt = (idx: number) => setLightboxController((c) => ({ toggler: !c.toggler, slide: idx + 1 }));
 
   // All lightbox sources (carousel + outside-of-work + awards)
   const allLightboxSources = React.useMemo(
     () => [
-      ...carouselImages.map(i => i.src),
-      ...outsideWorkImages.map(i => i.src),
-      ...awardImages.map(i => i.src)
+      ...carouselImages.map((i) => i.src),
+      ...outsideWorkImages.map((i) => i.src),
+      ...awardImages.map((i) => i.src),
     ],
     []
   );
@@ -86,8 +85,7 @@ export default function AboutPage() {
 
   return (
     <main className="text-foreground flex flex-col gap-12 px-5 md:px-8">
-      
-        {/* ------------------------------------------------------------------------- 
+      {/* ------------------------------------------------------------------------- 
         /                              About me                                     /
         -------------------------------------------------------------------------- */}
 
@@ -121,17 +119,30 @@ export default function AboutPage() {
         -------------------------------------------------------------------------- */}
 
       <section aria-label="Info" className="max-w-screen-md">
-        <h2 className="mb-4 text-lg font-semibold">My story</h2>
+        <h2 className="mb-4 text-lg font-semibold">my story</h2>
         <p className="text-sm">
-          I’m a Communication & Multimedia Design student based in Amsterdam with a strong interest in how design and
-          technology come together. What excites me most is taking an idea from a rough concept and shaping it into
-          something that feels clear, functional, and engaging. I like to work in a way that balances creativity with
-          structure. I usually start by sketching or mapping out ideas on paper, before moving into Figma to explore
-          visual directions and interaction design. From there, I refine prototypes and often translate them into code,
-          making sure the result not only looks good but also works smoothly in practice. Collaboration is an important
-          part of my process — whether that’s bouncing ideas in workshops, iterating on feedback, or presenting concepts
-          in a way that everyone can understand. I enjoy making complex things feel simple and creating work that’s both
-          visually strong and technically sound.
+          I’m a Communication & Multimedia Design (<b>CMD</b>) student based in Amsterdam with a strong interest in how
+          design and technology come together. Ever since I've been young I've used computers a lot. Wether it was for
+          gaming, or experimenting in Photoshop, I've always been interested in computers & digital environments. I
+          believe this is one of the main reason I decided to go for CMD. The study allows you to choose "between" a
+          multitude of directions, namely: UX, UI and Development. However I've never really made a choice between those
+          three, seeing as I just really like all three of the directions. My goal is specializing in all 3 directions.
+        </p>
+
+        <h2 className="my-4 text-lg font-semibold">designer's ethos</h2>
+        <p className="text-sm">
+          I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time
+          to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I’ve thought
+          through how to actually bring them to life. Because of that, I’ve learned to slow down, break those ideas into
+          smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client
+          feedback, which is invaluable.
+        </p>
+        <p className="mt-4 text-sm">
+          In group settings, I usually take on a flexible role, adapting to what the project or team needs. I’m highly
+          organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or
+          environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in
+          my work and can make massive progress in a short time when I’m fully focused sometimes, sometimes completing a
+          week’s worth of work in a single day That kind of momentum is something I try to utilize as best as I can.
         </p>
       </section>
 
@@ -154,7 +165,7 @@ export default function AboutPage() {
                   type="button"
                   aria-label={`Open image ${i + 1} in lightbox`}
                   onClick={() => openLightboxAt(i)}
-                  className="relative aspect-[4/4] w-full cursor-zoom-in overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                  className="focus:ring-foreground/40 relative aspect-[4/4] w-full cursor-zoom-in overflow-hidden rounded-lg focus:ring-2 focus:outline-none"
                 >
                   <Image
                     src={img.src}
@@ -189,15 +200,13 @@ export default function AboutPage() {
       -------------------------------------------------------------------------- */}
       <section aria-label="Setup gallery" className="max-w-screen-md">
         <h2 className="mb-4 text-lg font-semibold">outside of work</h2>
-        <p className="text-sm mb-4">
-          When I’m not working on design or coding projects, I spend a lot of time exploring other creative and
-          technical hobbies. I enjoy gaming and the culture around it, whether that’s diving into expansive worlds like
-          Cyberpunk 2077 or Warframe, or building out my own survival projects in Minecraft. Music is another big part
-          of my daily life — I’m always discovering new artists and shaping playlists, often listening while I work or
-          travel. I also like experimenting with different creative tools outside of a strict “work” context: editing in
-          After Effects, modeling in Blender, or playing around with photography. On the side, I’m slowly learning
-          Japanese, which connects both to my interest in language and my plans to spend time in Japan. These hobbies
-          keep me curious and give me fresh perspectives that often feed back into my design and development work.
+        <p className="mb-4 text-sm">
+          To give you a better idea of who I am outside of work, here’s a bit about what I do in my free time. I spend a
+          lot of time on games, media, and music. They’re things I’ve always enjoyed and still get a lot out of.
+          Whether that’s playing something new, watching a show, or discovering new songs to listen to, it’s a
+          big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations
+          in After Effects, or building 3D scenes/models in Blender. On top of that, I’m really into tech and hardware. I built
+          my own PC and enjoy working on my desk setup. I’ve added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job.
         </p>
         <div className="grid grid-cols-6 gap-4">
           {outsideWorkImages.map((img, idx) => {
@@ -213,14 +222,12 @@ export default function AboutPage() {
                 tabIndex={0}
                 aria-label={`Open ${img.alt} in lightbox`}
                 onClick={() => openLightboxAt(globalIndex)}
-                onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && openLightboxAt(globalIndex)}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openLightboxAt(globalIndex)}
                 className={[
                   baseCols,
                   'cursor-zoom-in transition duration-300',
-                  galleryHover !== null && galleryHover !== idx
-                    ? 'scale-[0.985] blur-[1px] brightness-[0.72]'
-                    : '',
-                  'hover:blur-0 hover:scale-100 hover:brightness-100 focus:outline-none focus:ring-2 focus:ring-foreground/40'
+                  galleryHover !== null && galleryHover !== idx ? 'scale-[0.985] blur-[1px] brightness-[0.72]' : '',
+                  'hover:blur-0 focus:ring-foreground/40 hover:scale-100 hover:brightness-100 focus:ring-2 focus:outline-none',
                 ].join(' ')}
                 onMouseEnter={() => setGalleryHover(idx)}
                 onMouseLeave={() => setGalleryHover(null)}
@@ -275,7 +282,7 @@ export default function AboutPage() {
                       type="button"
                       aria-label="Open Cambridge certificate image"
                       onClick={() => openLightboxAt(awardsOffset + 0)}
-                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                      className="focus:ring-foreground/40 relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:ring-2 focus:outline-none"
                     >
                       <Image
                         src="/images/cambridge.jpg"
@@ -296,15 +303,15 @@ export default function AboutPage() {
               <AccordionContent>
                 <div className="flex flex-col gap-4 md:flex-row md:items-start">
                   <p className="text-foreground/80 flex-1 text-sm leading-relaxed">
-                    Controlled accordions are useful when you need to synchronize the accordion state with other parts
-                    of your application, or when you want to open specific sections based on user actions elsewhere.
+                    My Propadeutic Diploma. (Cum Laude) This diploma is awarded who succesfully complete their first
+                    year of secondary education
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
                     <button
                       type="button"
                       aria-label="Open Propedeutic diploma image"
                       onClick={() => openLightboxAt(awardsOffset + 1)}
-                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                      className="focus:ring-foreground/40 relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:ring-2 focus:outline-none"
                     >
                       <Image
                         src="/images/propedeuse.jpg"
@@ -340,14 +347,22 @@ export default function AboutPage() {
                     </Tooltip>{' '}
                     of the (HAVO) graduation class 2023. The PWS was about how games are produced. We conducted
                     extensive research into the entire process of game development, including speaking with the CEO of a
-                    game company.
+                    game company. The PWS is available
+                    <a
+                      href="/Profielwerkstuk Luka en James 22-23 definitief.pdf"
+                      className="rounded-sm px-1 !text-blue-600 transition-colors duration-200 ease-in-out hover:bg-blue-600 hover:!text-white focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                      target="_blank"
+                    >
+                      here
+                    </a>
+                    .
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
                     <button
                       type="button"
                       aria-label="Open PWS prize image"
                       onClick={() => openLightboxAt(awardsOffset + 2)}
-                      className="relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:outline-none focus:ring-2 focus:ring-foreground/40"
+                      className="focus:ring-foreground/40 relative aspect-[3/4] w-20 cursor-zoom-in overflow-hidden rounded focus:ring-2 focus:outline-none"
                     >
                       <Image
                         src="/images/PWSprijs.jpg"
