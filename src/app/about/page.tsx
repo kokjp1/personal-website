@@ -199,7 +199,7 @@ export default function AboutPage() {
       /                              Outside of work                               /
       -------------------------------------------------------------------------- */}
       <section aria-label="Setup gallery" className="max-w-screen-md">
-        <h2 className="mb-4 text-lg font-semibold">outside of work</h2>
+        <h2 className="mb-4 text-lg font-semibold">in my free time</h2>
         <p className="mb-4 text-sm">
           To give you a better idea of who I am outside of work, here’s a bit about what I do in my free time. I spend a
           lot of time on games, media, and music. They’re things I’ve always enjoyed and still get a lot out of.
@@ -303,8 +303,8 @@ export default function AboutPage() {
               <AccordionContent>
                 <div className="flex flex-col gap-4 md:flex-row md:items-start">
                   <p className="text-foreground/80 flex-1 text-sm leading-relaxed">
-                    My Propadeutic Diploma. (Cum Laude) This diploma is awarded who succesfully complete their first
-                    year of secondary education
+                    My Propadeutic Diploma. (Cum Laude) This diploma is awarded who successfully complete their first
+                    year of higher education (HBO)
                   </p>
                   <div className="shrink-0 self-start rounded-md border border-white/10 bg-black/5 p-1 dark:bg-white/5">
                     <button

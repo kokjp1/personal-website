@@ -13,7 +13,9 @@ import * as rhythmrain from "./rhythmrain/index";
 import * as userjourney from "./userjourney/index";
 import * as whackamole from "./whackamole/index";
 import * as portfoliov3 from "./portfoliov3/index";
-
+import * as writedown from "./writedown/index";
+import * as chatextractor from "./chatextractor/index";
+import * as sonora from "./sonora/index";
 type ProjectModule = {
   meta: ProjectMeta;
   default: ComponentType<unknown>;
@@ -40,6 +42,9 @@ const rawModules = [
   userjourney,
   whackamole,
   portfoliov3,
+  writedown,
+  chatextractor,
+  sonora,
 ];
 
 // Filter (in case a folder is missing an index.tsx)

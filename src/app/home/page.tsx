@@ -210,7 +210,7 @@ export default function HomePage() {
         </p>
         <p className="text-sm">
           I am interested in design, technology, interfaces and programming. What you find here is a mix of school
-          projects and personal work.
+          projects and personal work. I work across the full design-to-code pipeline — from UX research and UI design to frontend development.
         </p>
       </section>
 

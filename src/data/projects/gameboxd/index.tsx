@@ -16,7 +16,7 @@ export const meta: ProjectMeta = {
   title: 'Gameboxd',
   year: 2024,
   context: 'CMD',
-  description: 'A social platform for gamers to share and discover video games.',
+  description: 'A social platform concept inspired by Letterboxd, designed for gamers to log, review, and share their gaming experiences with friends.',
   roles: ['🔎 UX', '🎨 UI'],
   tags: ['Figma'],
   cover,

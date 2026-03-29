@@ -16,7 +16,7 @@ export const meta: ProjectMeta = {
   title: 'GameScout',
   year: 2024,
   context: 'CMD',
-  description: 'A social platform for gamers to share and discover video games.',
+  description: 'A game discovery platform where players can scout, rate, and track video games.',
   roles: ['🔎 UX', '🎨 UI'],
   tags: ['Figma'],
   cover,
