@@ -26,31 +26,6 @@ export default function Body() {
       <p>
         During my Information Design minor at the Amsterdam University of Applied Sciences, I spent a semester exploring how to translate complex data and ideas into clear, compelling visuals. The minor covered data visualization principles, visual hierarchy, typography for information design, and narrative-driven design. I worked with tools including Figma and Flourish to produce data-driven visual outputs. 
       </p>
-
-      <h2 className="mt-10 mb-4 text-lg font-semibold">Featured Projects</h2>
-      
-      <div className="space-y-8">
-        <div>
-          <h3 className="font-medium">Information Design - Project 1</h3>
-          <p className="text-sm mb-4">A brief description of this project and what data visualization methods were used.</p>
-          <div className="w-full aspect-video bg-neutral-100 dark:bg-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-400 text-sm">
-            [Placeholder: Flourish Chart / Figma Screenshot]
-          </div>
-        </div>
-
-        <div>
-          <h3 className="font-medium">Information Design - Project 2</h3>
-          <p className="text-sm mb-4">A brief description of this second project and the specific visual storytelling challenge it addressed.</p>
-          <div className="w-full aspect-video bg-neutral-100 dark:bg-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-700 flex items-center justify-center text-neutral-400 text-sm">
-            [Placeholder: Final Deliverable Screenshot]
-          </div>
-        </div>
-      </div>
-
-      <h2 className="mt-10 mb-2 text-lg font-semibold">Takeaways</h2>
-      <p>
-        A brief note on the most notable outcome, insight gathered, or thing learned from this minor.
-      </p>
     </>
   );
 }
