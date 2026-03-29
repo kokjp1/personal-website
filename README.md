@@ -27,6 +27,12 @@ add: d3 to toolset
 add: "what would i do now, if i remade the project, 1, 2 or 3 years later?"
 add: "more process notes"
 
+add: textual data & check metadata to/for 
+- Minor information design
+- ChatGPT Converter
+- Sonora
+- WriteDown
+
 ```
 portfolio
 ├─ .prettierrc
