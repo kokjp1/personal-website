@@ -13,6 +13,7 @@ export const meta: ProjectMeta = {
   roles: ['🔎 UI'],
   tags: ['Figma'],
   cover,
+  links: [{ label: 'User Journey PDF', href: '/User-journey.pdf' }],
 };
 
 export default function Body() {
