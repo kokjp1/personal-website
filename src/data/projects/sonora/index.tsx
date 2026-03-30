@@ -1,7 +1,11 @@
 import * as React from 'react';
 import type { ProjectMeta } from '@/components/content/ProjectLayout';
-import cover from './sonora-cover.jpg';
+import { ProjectGallery } from '@/components/lightbox/ProjectGallery';
 
+import cover from './sonora-cover.jpg';
+import sessionsImg from './sessions.png';
+import recapsImg from './recaps.png';
+import treemapsImg from './treemaps.png';
 export const meta: ProjectMeta = {
   slug: 'sonora',
   title: 'Sonora',
@@ -24,6 +28,11 @@ export const meta: ProjectMeta = {
 };
 
 export default function Body() {
+  const galleryImages = [
+    { src: recapsImg, alt: 'Sonora Recaps', caption: 'Sonora Recap View' },
+    { src: treemapsImg, alt: 'Sonora Treemap', caption: 'Sonora Treemap View' },
+  ];
+
   return (
     <>
       <p>
@@ -50,9 +59,14 @@ export default function Body() {
         <li>Fix callback in tab title</li>
       </ul>
 
-      <p className="text-sm text-neutral-500 italic">
-        [Add: link to GitHub repo, screenshots from wiki/session.png, wiki/recap.png, wiki/treemap.png]
-      </p>
+      <h2 className="mt-8 text-lg font-semibold">gallery</h2>
+      <div className="mt-6">
+        <ProjectGallery
+          splash={{ src: sessionsImg, alt: 'Sonora Session View', caption: 'Live Session View, Synced with Spotify' }}
+          images={galleryImages}
+          gridClasses="grid-cols-2"
+        />
+      </div>
     </>
   );
 }
