@@ -11,7 +11,7 @@ export const meta: ProjectMeta = {
   year: 2024,
   context: 'CMD',
   description: 'Information Design minor at AUAS, a semester-long deep dive into data visualization, visual storytelling, and communicating complex information clearly.',
-  roles: ['🎨 UI', '🔎 UX', '✨ CREA'],
+  roles: ['🎨 UI', '🔎 UX'],
   tags: ['Figma', 'Flourish'],
   cover,
   links: [

@@ -5,10 +5,10 @@ import cover from './writedown-cover.jpg';
 export const meta: ProjectMeta = {
   slug: 'writedown',
   title: 'writedown',
-  year: 2025,
+  year: 2026,
   context: 'Personal',
-  description: 'A distraction-free note-taking app. Just write — save as .md, .txt, or keep it local.',
-  roles: ['💻 DEV', '🎨 UI'],
+  description: 'A distraction-free note-taking app. Just write abd save as .md, .txt, or keep it local. Inspiration: Freewrite by Farza',
+  roles: ['💻 DEV'],
   tags: [],
   cover,
   links: [
@@ -27,7 +27,7 @@ export default function Body() {
   return (
     <>
       <p>
-        writedown is a note-taking app built around one idea: just write. Dump your thoughts, clear your head, save what sticks — as .md, .txt, or locally. No formatting rules, no timers, no pressure. Just you and a blank page.
+        writedown is a note-taking app built around a core idea: just write. Dump your thoughts, clear your head, save what sticks, as .md, .txt, or locally. Heavily inspired by "Freewrite by Farza."
       </p>
     </>
   );

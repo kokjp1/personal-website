@@ -21,9 +21,21 @@ ammend: make the filter tags on the projects page a bit smaller so they fit side
 ammend: dark mode default
 ammend: maybe back to top button
 
-add: office to toolset
+Development tool additions:
 add: svelte to toolset
+add: sveltekit to toolset
 add: d3 to toolset
+add: wordpress to toolset
+add: elementor to toolset
+
+Design tool additions:
+add: office to toolset
+
+Platforms/DB tool additions: 
+add: brevo to toolset
+add: make.com to toolset
+add: storyblok to toolset
+
 add: "what would i do now, if i remade the project, 1, 2 or 3 years later?"
 add: "more process notes"
 

@@ -180,7 +180,8 @@ a:hover { text-decoration: underline; }
 
 #tools-grid[data-active-group="design"] li:not([data-group="design"]),
 #tools-grid[data-active-group="development"] li:not([data-group="development"]),
-#tools-grid[data-active-group="platforms/db"] li:not([data-group="platforms/db"]) {
+#tools-grid[data-active-group="platforms/db"] li:not([data-group="platforms/db"]),
+#tools-grid[data-active-group="workflow"] li:not([data-group="workflow"]) {
   opacity: .35;
 }
 

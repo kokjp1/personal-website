@@ -10,7 +10,7 @@ export const meta: ProjectMeta = {
   year: 2024,
   context: 'CMD',
   description: 'User Journey about inventing a device to improve sleep quality.',
-  roles: ['🔎 UI'],
+  roles: ['🔎 UX'],
   tags: ['Figma'],
   cover,
   links: [{ label: 'User Journey PDF', href: '/User-journey.pdf' }],

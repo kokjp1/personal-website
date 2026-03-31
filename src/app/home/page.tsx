@@ -20,20 +20,20 @@ const FEATURED_LAYOUT: Record<
   string,
   { colSpan: string; rowSpan: string }
 > = {
-  listral: { colSpan: "md:col-span-2", rowSpan: "row-span-2" },
+  // listral: { colSpan: "md:col-span-2", rowSpan: "row-span-2" },
   boekenzoeker: { colSpan: "md:col-span-2", rowSpan: "row-span-1" },
-  "personalprojects": { colSpan: "md:col-span-2", rowSpan: "row-span-1" },
-  gamescout: { colSpan: "md:col-span-4", rowSpan: "row-span-1" },
+  // "personalprojects": { colSpan: "md:col-span-2", rowSpan: "row-span-1" },
+  sonora: { colSpan: "md:col-span-4", rowSpan: "row-span-1" },
   onyx: { colSpan: "md:col-span-4", rowSpan: "row-span-2" },
   minor: { colSpan: "md:col-span-2", rowSpan: "row-span-2" },
 };
 
 // --- Order for displays
 const FEATURED_ORDER = [
-  "listral",
+  // "listral",
   "boekenzoeker",
-  "personalprojects",
-  "gamescout",
+  // "personalprojects",
+  "sonora",
   "onyx",
   "minor",
 ] as const;

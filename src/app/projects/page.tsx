@@ -21,22 +21,33 @@ export default function ProjectsPage() {
 
   const filtered: ProjectMeta[] = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    return projectMeta.filter((p: ProjectMeta) => {
-      const tags = (p.tags ?? []) as string[];
-      const rolesArr = (p.roles ?? []) as string[];
+    return projectMeta
+      .filter((p: ProjectMeta) => {
+        const tags = (p.tags ?? []) as string[];
+        const rolesArr = (p.roles ?? []) as string[];
 
-      const textMatch =
-        !q ||
-        p.title.toLowerCase().includes(q) ||
-        (p.description ?? "").toLowerCase().includes(q) ||
-        tags.some((tag: string) => tag.toLowerCase().includes(q));
+        const textMatch =
+          !q ||
+          p.title.toLowerCase().includes(q) ||
+          (p.description ?? "").toLowerCase().includes(q) ||
+          tags.some((tag: string) => tag.toLowerCase().includes(q));
 
-      const rolesMatch =
-        roleFilters.length === 0 ||
-        rolesArr.some((r: string) => roleFilters.includes(r));
+        const rolesMatch =
+          roleFilters.length === 0 ||
+          rolesArr.some((r: string) => roleFilters.includes(r));
 
-      return textMatch && rolesMatch;
-    });
+        return textMatch && rolesMatch;
+      })
+      .sort((a, b) => {
+        const ya = Number(a.year);
+        const yb = Number(b.year);
+        const aOngoing = isNaN(ya);
+        const bOngoing = isNaN(yb);
+        if (aOngoing && bOngoing) return 0;
+        if (aOngoing) return 1;
+        if (bOngoing) return -1;
+        return yb - ya;
+      });
   }, [query, roleFilters]);
 
   return (
