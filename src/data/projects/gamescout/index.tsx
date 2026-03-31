@@ -17,7 +17,7 @@ export const meta: ProjectMeta = {
   year: 2024,
   context: 'CMD',
   description: 'A game discovery platform where players can scout, rate, and track video games.',
-  roles: ['DEV 💻', '🎨 UI'],
+  roles: ['💻 DEV', '🎨 UI'],
   tags: ['Express', 'EJS', 'CSS', 'MongoDB', 'Node.js/npm'],
   cover,
   links: [{ label: 'Source code', href: 'https://github.com/kokjp1/Gamescout' }],
