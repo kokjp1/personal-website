@@ -16,6 +16,7 @@ export const meta: ProjectMeta = {
   roles: ['💻 DEV'],
   tags: ['HTML', 'CSS', 'JavaScript'],
   cover,
+  links: [{ label: 'GitHub', href: 'https://github.com/kokjp1/Whack-A-Berry' }],
 };
 
 export default function Body() {

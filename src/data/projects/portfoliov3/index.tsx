@@ -12,6 +12,7 @@ export const meta: ProjectMeta = {
   roles: ['🔎 UI', '💻 DEV'],
   tags: ['Figma', 'React', 'TypeScript', 'Tailwind', 'Next.js', 'shadcn', 'Vercel'],
   cover,
+  links: [{ label: 'GitHub', href: 'https://github.com/kokjp1/personal-website' }],
 };
 
 export default function Body() {

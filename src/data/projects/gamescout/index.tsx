@@ -17,8 +17,8 @@ export const meta: ProjectMeta = {
   year: 2024,
   context: 'CMD',
   description: 'A game discovery platform where players can scout, rate, and track video games.',
-  roles: ['🔎 UX', '🎨 UI'],
-  tags: ['Figma'],
+  roles: ['DEV 💻', '🎨 UI'],
+  tags: ['Express', 'EJS', 'CSS', 'MongoDB', 'Node.js/npm'],
   cover,
   links: [{ label: 'Source code', href: 'https://github.com/kokjp1/Gamescout' }],
 };
@@ -36,16 +36,18 @@ export default function Body() {
   return (
     <>
       <p>
-        This design was for a project about UI design. The goal was connecting a physical element with a digital
-        interface. I designed a mobile app acting as a social layer for gaming: news, profiles, friends, messaging and
-        curated collections. The physical counterpart was an NFC business card linking directly to a user profile.
+        GameScout is a full-stack web application built to help gamers discover their next favorite game. Using the RAWG API, users can search and filter through a large game catalog based on their preferences — whether that's fast-paced shooters, deep RPGs, or relaxing indie titles. Beyond discovery, the app includes user accounts, bookmarks, and a personal game collection, all stored in a MongoDB database.
+      </p>
+      <p className="mt-4">
+        This was a group project built with four people. My initial role was focused on the Frontend with EJS but later on my role grew to be a fullstack role in the team. Eventually I ended up working on all facets of the project, including the API, Database, backend and frontend.
       </p>
 
       <h2 className="mt-10 text-lg font-semibold">goal</h2>
       <ul className="mt-2 list-disc space-y-1 pl-6 text-sm">
-        <li>Create a cohesive mobile interface in Figma.</li>
-        <li>Bridge a physical NFC card with a digital profile experience.</li>
-        <li>Demonstrate the concept at an exposition.</li>
+        <li>Build a functional full-stack web app with Node.js, Express, and MongoDB.</li>
+        <li>Implement user authentication (bcrypt) and persistent data storage.</li>
+        <li>Integrate an external API (RAWG) for real-time game data.</li>
+        <li>Work collaboratively in a team using GitHub.</li>
       </ul>
 
       <h2 className="mt-10 text-lg font-semibold">result</h2>
@@ -61,3 +63,4 @@ export default function Body() {
     </>
   );
 }
+

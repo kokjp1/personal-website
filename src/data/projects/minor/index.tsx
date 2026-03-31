@@ -1,15 +1,17 @@
 import * as React from 'react';
+import Image from 'next/image';
 import { ProjectMeta } from '@/components/content/ProjectLayout';
 
 import cover from './minorcover.jpg';
+import fullRender from './full_render_cf.png';
 
 export const meta: ProjectMeta = {
   slug: 'minor',
-  title: 'Minor',
+  title: 'Information Design',
   year: 2024,
   context: 'CMD',
-  description: 'Information Design minor at AUAS — a semester-long deep dive into data visualization, visual storytelling, and communicating complex information clearly.',
-  roles: ['🎨 UI', '🔎 UX', '✨ CREA'],
+  description: 'Information Design minor at AUAS, a semester-long deep dive into data visualization, visual storytelling, and communicating complex information clearly.',
+  roles: ['🎨 UI', '🔎 UX'],
   tags: ['Figma', 'Flourish'],
   cover,
   links: [
@@ -26,6 +28,17 @@ export default function Body() {
       <p>
         During my Information Design minor at the Amsterdam University of Applied Sciences, I spent a semester exploring how to translate complex data and ideas into clear, compelling visuals. The minor covered data visualization principles, visual hierarchy, typography for information design, and narrative-driven design. I worked with tools including Figma and Flourish to produce data-driven visual outputs. 
       </p>
+
+      <div className="mt-8 relative w-full overflow-hidden rounded-xl border border-neutral-200 shadow-sm dark:border-neutral-800">
+        <div className="max-h-[70vh] w-full overflow-y-auto bg-neutral-100 dark:bg-neutral-900">
+          <Image
+            src={fullRender}
+            alt="Final Information Design Dashboard Render"
+            className="w-full h-auto"
+            placeholder="blur"
+          />
+        </div>
+      </div>
     </>
   );
 }

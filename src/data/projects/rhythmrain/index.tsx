@@ -19,6 +19,9 @@ export const meta: ProjectMeta = {
   roles: ['🎨 UI'],
   tags: ['Figma'],
   cover,
+  links: [
+    { label: 'Figma Prototype', href: 'https://www.figma.com/proto/DbUS5m40oKwSnmukoqmVwd/RMDD-Wireframes-Hi-Fi-Prototype?node-id=151-5958&viewport=683%2C465%2C0.1&t=VlBZl3qjWQdILd9Q-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=151%3A5958' },
+  ],
 };
 
 export default function Body() {

@@ -19,6 +19,9 @@ export const meta: ProjectMeta = {
   roles: ['🎨 UI', '🔎 UX', '💻 DEV'],
   tags: ['Firebase', 'Flutterflow', 'Figma'],
   cover,
+  links: [
+    { label: 'Visit Onyx', href: 'https://byonyx.app/' },
+  ],
 };
 
 export default function Body() {

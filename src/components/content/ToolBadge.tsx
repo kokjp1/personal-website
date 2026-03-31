@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 /* -------------------------------------------------------------------------- */
 /* Types                                                                      */
 /* -------------------------------------------------------------------------- */
-export type ToolGroup = 'design' | 'development' | 'platforms/db';
+export type ToolGroup = 'design' | 'development' | 'platforms/db' | 'workflow';
 
 export interface ToolDef {
   name: string;
@@ -41,8 +41,13 @@ export const TOOLS: ToolDef[] = [
   { name: 'Next.js', icon: 'devicon:nextjs', group: 'development' },
   { name: 'Node.js/npm', icon: 'devicon:nodejs', group: 'development' },
   { name: 'Express', icon: 'devicon:express', group: 'development' },
+  { name: 'EJS', icon: 'simple-icons:ejs', color: '#A91E50', group: 'development' },
   { name: 'Vite', icon: 'devicon:vite', group: 'development' },
   { name: 'Flutterflow', icon: '/icons/flutterflow.png', group: 'development' },
+  { name: 'Svelte(kit)', icon: 'devicon:svelte', group: 'development' },
+  { name: 'D3', icon: 'devicon:d3js', group: 'development' },
+  { name: 'WordPress', icon: 'devicon:wordpress', group: 'development' },
+  { name: 'Elementor', icon: '/icons/elementor_logo.png', group: 'development' },
 
   // Platforms / DB
   { name: 'GitHub', icon: 'devicon:github', group: 'platforms/db' },
@@ -51,6 +56,15 @@ export const TOOLS: ToolDef[] = [
   { name: 'Firebase', icon: 'devicon:firebase', group: 'platforms/db' },
   { name: 'Supabase', icon: 'devicon:supabase', group: 'platforms/db' },
   { name: 'MongoDB', icon: 'devicon:mongodb', group: 'platforms/db' },
+  { name: 'Brevo', icon: 'simple-icons:brevo', color: '#0B996E', group: 'platforms/db' },
+  { name: 'Storyblok', icon: 'simple-icons:storyblok', color: '#09B3AF', group: 'platforms/db' },
+  // Workflow
+  { name: 'ClickUp', icon: 'simple-icons:clickup', color: '#7B68EE', group: 'workflow' },
+  { name: 'Miro', icon: 'simple-icons:miro', color: '#FFD02F', group: 'workflow' },
+  { name: 'Notion', icon: 'devicon:notion', group: 'workflow' },
+  { name: 'ChatGPT', icon: 'simple-icons:openai', color: '#10A37F', group: 'workflow' },
+  { name: 'Claude', icon: 'simple-icons:claude', color: '#D4A27F', group: 'workflow' },
+  { name: 'Gemini', icon: 'simple-icons:googlegemini', color: '#8E75B2', group: 'workflow' },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -60,12 +74,14 @@ export const GROUP_LABEL: Record<ToolGroup, string> = {
   design: 'Design',
   development: 'Development',
   'platforms/db': 'Platforms/DB',
+  workflow: 'Workflow',
 };
 
 export const GROUP_COLOR: Record<ToolGroup, { bg: string; dot: string; text: string }> = {
   design: { bg: 'bg-fuchsia-500', dot: 'bg-fuchsia-500', text: 'text-fuchsia-500' },
   development: { bg: 'bg-sky-500', dot: 'bg-sky-500', text: 'text-sky-500' },
   'platforms/db': { bg: 'bg-amber-500', dot: 'bg-amber-500', text: 'text-amber-500' },
+  workflow: { bg: 'bg-violet-500', dot: 'bg-violet-500', text: 'text-violet-500' },
 };
 
 /* -------------------------------------------------------------------------- */
@@ -87,7 +103,7 @@ export const ICON_MAP: Record<string, { icon: string; color?: string }> = TOOLS.
 /* -------------------------------------------------------------------------- */
 interface ToolBadgeProps {
   label: string;
-  icon?: string;          // override
+  icon?: string;         
   color?: string;
   iconSize?: number;
   className?: string;

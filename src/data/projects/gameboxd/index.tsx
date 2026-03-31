@@ -20,7 +20,7 @@ export const meta: ProjectMeta = {
   roles: ['🔎 UX', '🎨 UI'],
   tags: ['Figma'],
   cover,
-  links: [{ label: 'Figma file', href: 'https://github.com/yourusername/gameboxd' }],
+  links: [{ label: 'Figma prototype', href: 'https://www.figma.com/proto/jVm6AuJwVfroWLRv5fc0la/Gameboxd-app-UI?node-id=8-167&p=f&viewport=-105%2C908%2C0.12&t=fweLj1slbnaUuBZW-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=8%3A167&page-id=0%3A1' }],
 };
 
 export default function Body() {
