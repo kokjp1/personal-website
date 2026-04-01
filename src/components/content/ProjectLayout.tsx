@@ -1,8 +1,10 @@
+'use client';
 import * as React from "react";
 import Image, { StaticImageData } from "next/image";
-import Link from "next/link"; // added
+import Link from "next/link";
+import { motion } from "motion/react";
 import { ToolBadge } from "./ToolBadge";
-import { ExternalLink, ArrowLeft } from "lucide-react"; // added ArrowLeft
+import { ExternalLink, ArrowLeft } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
 /*                            Project meta (shared)                            */
@@ -26,6 +28,16 @@ interface ProjectLayoutProps {
   children: React.ReactNode;
 }
 
+/* Animation variants */
+const headerContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+const headerItem = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+};
+
 /* -------------------------------------------------------------------------- */
 /*                             Project layout shell                            */
 /* -------------------------------------------------------------------------- */
@@ -45,9 +57,12 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
   return (
     <div className="px-5 md:px-8 py-10 flex flex-col gap-10">
       {/* Back button */}
-      <nav
+      <motion.nav
         aria-label="Breadcrumb"
         className="-mt-2 mb-2 relative z-20 pointer-events-auto"
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <Link
           href="/projects"
@@ -60,11 +75,17 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           <span>Back to projects</span>
         </Link>
-      </nav>
+      </motion.nav>
+
       {/* ----------------------------- Header / Hero ------------------------------ */}
-      <header className="flex flex-col gap-6">
+      <motion.header
+        className="flex flex-col gap-6"
+        variants={headerContainer}
+        initial="hidden"
+        animate="show"
+      >
         {/* ---------------- Title / year / context / description ---------------- */}
-        <div className="flex flex-col gap-2">
+        <motion.div variants={headerItem} className="flex flex-col gap-2">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h1>
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
             <span className="font-medium">{year}</span>
@@ -80,11 +101,11 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
               {description}
             </p>
           )}
-        </div>
+        </motion.div>
 
         {/* -------------------------- Roles & tags (pills) ------------------------- */}
         {(roles.length > 0 || tags.length > 0) && (
-          <div className="flex flex-col gap-3">
+          <motion.div variants={headerItem} className="flex flex-col gap-3">
             {roles.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {roles.map((r) => (
@@ -99,12 +120,12 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
                 ))}
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* ------------------------------ External links ------------------------------ */}
         {links.length > 0 && (
-          <div className="flex flex-wrap gap-3 pt-1">
+          <motion.div variants={headerItem} className="flex flex-wrap gap-3 pt-1">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -116,12 +137,15 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
                 {l.label} <ExternalLink className="inline-block mb-0.5 h-3 w-3" aria-hidden />
               </a>
             ))}
-          </div>
+          </motion.div>
         )}
 
         {/* -------------------------------- Cover image -------------------------------- */}
         {cover && (
-          <div className="relative w-full aspect-[16/9] max-h-[520px] overflow-hidden rounded-lg border bg-muted/30">
+          <motion.div
+            variants={headerItem}
+            className="relative w-full aspect-[16/9] max-h-[520px] overflow-hidden rounded-lg border bg-muted/30"
+          >
             <Image
               src={cover}
               alt={`${title} cover`}
@@ -130,17 +154,20 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
               className="object-cover"
               priority
             />
-          </div>
+          </motion.div>
         )}
-      </header>
+      </motion.header>
 
       {/* ----------------------------- Gallery (optional) ---------------------------- */}
       {gallery && gallery.length > 0 && (
         <section className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2">
           {gallery.map((img, i) => (
-            <div
+            <motion.div
               key={i}
               className="relative aspect-[16/10] overflow-hidden rounded-md border bg-muted/30"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
             >
               <Image
                 src={img}
@@ -149,15 +176,20 @@ export function ProjectLayout({ meta, children }: ProjectLayoutProps) {
                 sizes="(max-width:768px) 100vw, 50vw"
                 className="object-cover"
               />
-            </div>
+            </motion.div>
           ))}
         </section>
       )}
 
       {/* --------------------------- Narrative / Body content --------------------------- */}
-      <article className="prose prose-sm dark:prose-invert max-w-none">
+      <motion.article
+        className="prose prose-sm dark:prose-invert max-w-none"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: gallery && gallery.length > 0 ? 0.55 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+      >
         {children}
-      </article>
+      </motion.article>
     </div>
   );
 }
