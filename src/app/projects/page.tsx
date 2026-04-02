@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { projectMeta } from "@/data/projects/registry";
 import type { ProjectMeta } from "@/components/content/ProjectLayout";
+import { motion } from 'motion/react';
 
 const ROLES = ["🔎 UX", "🎨 UI", "💻 DEV", "✨ CREA"] as const;
 
@@ -95,10 +96,16 @@ export default function ProjectsPage() {
 
       <section className="flex flex-col gap-6">
         {filtered.map((p, i) => (
-          <Link key={p.slug} href={`/projects/${p.slug}`} className="block group">
+          <motion.div
+            key={p.slug}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.25), ease: [0.22, 1, 0.36, 1] }}
+          >
+          <Link href={`/projects/${p.slug}`} className="block group">
             <Card
-              className="relative overflow-hidden p-0 flex flex-col md:flex-row hover:shadow-md transition-shadow duration-300 w-full animate-in fade-in slide-in-from-bottom-2"
-              style={{ animationDelay: `${i * 80}ms` }}
+              className="relative overflow-hidden p-0 flex flex-col md:flex-row hover:shadow-md transition-shadow duration-300 w-full"
             >
               {/* Media */}
               <div className="w-full md:w-64 p-4 md:p-3 shrink-0 flex">
@@ -152,6 +159,7 @@ export default function ProjectsPage() {
               <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 bg-foreground" />
             </Card>
           </Link>
+          </motion.div>
         ))}
       </section>
     </main>

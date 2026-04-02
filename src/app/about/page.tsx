@@ -1,7 +1,7 @@
 'use client';
 
 {
-  /* -------------------------------------------------------------------------- 
+  /* --------------------------------------------------------------------------
     /                          Imports/types/consts                              /
      -------------------------------------------------------------------------- */
 }
@@ -16,6 +16,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import * as React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import FsLightbox from 'fslightbox-react';
+import { motion } from 'motion/react';
 
 const traits = [
   '🎨 Creative',
@@ -53,8 +54,26 @@ const awardImages = [
   { src: '/images/PWSprijs.jpg', alt: 'PWS prize' },
 ];
 
+/* Animation variants */
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } },
+};
+const heroItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+const traitContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
+};
+const traitItem = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+};
+
 {
-  /* -------------------------------------------------------------------------- 
+  /* --------------------------------------------------------------------------
   /                                   Page                                    /
   -------------------------------------------------------------------------- */
 }
@@ -85,43 +104,62 @@ export default function AboutPage() {
 
   return (
     <main className="text-foreground flex flex-col gap-12 px-5 md:px-8">
-      {/* ------------------------------------------------------------------------- 
+      {/* -------------------------------------------------------------------------
         /                              About me                                     /
         -------------------------------------------------------------------------- */}
 
-      <section className="flex max-w-screen-md flex-col gap-4">
-        <h1 className="text-xl font-semibold tracking-tight">about me</h1>
-        <h2 className="text-foreground/70 text-sm">Based in 📍 Amsterdam · CMD student</h2>
-        <p className="text-foreground/80 text-sm">
+      {/* Hero — staggered entrance on load */}
+      <motion.section
+        className="flex max-w-screen-md flex-col gap-4"
+        variants={heroContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.h1 variants={heroItem} className="text-xl font-semibold tracking-tight">about me</motion.h1>
+        <motion.h2 variants={heroItem} className="text-foreground/70 text-sm">Based in 📍 Amsterdam · CMD student</motion.h2>
+        <motion.p variants={heroItem} className="text-foreground/80 text-sm">
           People describe me as humorous, present, sympathetic, easy-going and energetic. People around me notice that I
-          am almost always ‘on’ verbally and communicatively.
-        </p>
-      </section>
+          am almost always 'on' verbally and communicatively.
+        </motion.p>
+      </motion.section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
         /                                   Traits                                 /
         -------------------------------------------------------------------------- */}
 
       <section aria-label="Traits" className="max-w-screen-md">
-        <ul className="flex flex-wrap gap-2">
+        <motion.ul
+          className="flex flex-wrap gap-2"
+          variants={traitContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {traits.map((t) => (
-            <li key={t}>
+            <motion.li key={t} variants={traitItem}>
               <Badge variant="secondary" className="rounded-md px-3 py-1 text-xs">
                 {t}
               </Badge>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
         /                                   Info                                    /
         -------------------------------------------------------------------------- */}
 
-      <section aria-label="Info" className="max-w-screen-md">
+      <motion.section
+        aria-label="Info"
+        className="max-w-screen-md"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h2 className="mb-4 text-lg font-semibold">my story</h2>
         <p className="text-sm">
-          I’m a Communication & Multimedia Design (<b>CMD</b>) student based in Amsterdam with a strong interest in how
+          I'm a Communication & Multimedia Design (<b>CMD</b>) student based in Amsterdam with a strong interest in how
           design and technology come together. Ever since I've been young I've used computers a lot. Wether it was for
           gaming, or experimenting in Photoshop, I've always been interested in computers & digital environments. I
           believe this is one of the main reason I decided to go for CMD. The study allows you to choose "between" a
@@ -132,25 +170,31 @@ export default function AboutPage() {
         <h2 className="my-4 text-lg font-semibold">designer's ethos</h2>
         <p className="text-sm">
           I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time
-          to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I’ve thought
-          through how to actually bring them to life. Because of that, I’ve learned to slow down, break those ideas into
+          to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I've thought
+          through how to actually bring them to life. Because of that, I've learned to slow down, break those ideas into
           smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client
           feedback, which is invaluable.
         </p>
         <p className="mt-4 text-sm">
-          In group settings, I usually take on a flexible role, adapting to what the project or team needs. I’m highly
+          In group settings, I usually take on a flexible role, adapting to what the project or team needs. I'm highly
           organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or
           environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in
-          my work and can make massive progress in a short time when I’m fully focused sometimes, sometimes completing a
-          week’s worth of work in a single day That kind of momentum is something I try to utilize as best as I can.
+          my work and can make massive progress in a short time when I'm fully focused sometimes, sometimes completing a
+          week's worth of work in a single day That kind of momentum is something I try to utilize as best as I can.
         </p>
-      </section>
+      </motion.section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
         /                             Image carousel                                /
         -------------------------------------------------------------------------- */}
 
-      <div className="relative w-full max-w-screen-md">
+      <motion.div
+        className="relative w-full max-w-screen-md"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Carousel
           plugins={[plugin.current]}
           opts={{ align: 'start', loop: true }}
@@ -185,7 +229,7 @@ export default function AboutPage() {
 
         <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r to-transparent sm:hidden" />
         <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l to-transparent sm:hidden" />
-      </div>
+      </motion.div>
 
       {/* FsLightbox component (carousel + outside-of-work images) */}
       <FsLightbox
@@ -195,19 +239,33 @@ export default function AboutPage() {
         types={allLightboxSources.map(() => 'image')}
       />
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
       /                              Outside of work                               /
       -------------------------------------------------------------------------- */}
       <section aria-label="Setup gallery" className="max-w-screen-md">
-        <h2 className="mb-4 text-lg font-semibold">in my free time</h2>
-        <p className="mb-4 text-sm">
-          To give you a better idea of who I am outside of work, here’s a bit about what I do in my free time. I spend a
-          lot of time on games, media, and music. They’re things I’ve always enjoyed and still get a lot out of.
-          Whether that’s playing something new, watching a show, or discovering new songs to listen to, it’s a
+        <motion.h2
+          className="mb-4 text-lg font-semibold"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          in my free time
+        </motion.h2>
+        <motion.p
+          className="mb-4 text-sm"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+        >
+          To give you a better idea of who I am outside of work, here's a bit about what I do in my free time. I spend a
+          lot of time on games, media, and music. They're things I've always enjoyed and still get a lot out of.
+          Whether that's playing something new, watching a show, or discovering new songs to listen to, it's a
           big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations
-          in After Effects, or building 3D scenes/models in Blender. On top of that, I’m really into tech and hardware. I built
-          my own PC and enjoy working on my desk setup. I’ve added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job.
-        </p>
+          in After Effects, or building 3D scenes/models in Blender. On top of that, I'm really into tech and hardware. I built
+          my own PC and enjoy working on my desk setup. I've added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job.
+        </motion.p>
         <div className="grid grid-cols-6 gap-4">
           {outsideWorkImages.map((img, idx) => {
             const globalIndex = carouselImages.length + idx; // offset after carousel images
@@ -216,13 +274,17 @@ export default function AboutPage() {
                 ? 'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-2'
                 : 'relative col-span-6 aspect-[4/3] overflow-hidden rounded-md sm:col-span-3';
             return (
-              <figure
+              <motion.figure
                 key={img.src}
                 role="button"
                 tabIndex={0}
                 aria-label={`Open ${img.alt} in lightbox`}
                 onClick={() => openLightboxAt(globalIndex)}
                 onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openLightboxAt(globalIndex)}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: idx * 0.08, ease: 'easeOut' }}
                 className={[
                   baseCols,
                   'cursor-zoom-in transition duration-300',
@@ -235,17 +297,24 @@ export default function AboutPage() {
                 <div className="relative aspect-[1/1] overflow-hidden rounded">
                   <Image src={img.src} alt={img.alt} fill sizes="800px" className="object-cover" />
                 </div>
-              </figure>
+              </motion.figure>
             );
           })}
         </div>
       </section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
         /                               Awards Accordion                            /
         -------------------------------------------------------------------------- */}
 
-      <section aria-label="Achievements" className="flex max-w-screen-md flex-col gap-4">
+      <motion.section
+        aria-label="Achievements"
+        className="flex max-w-screen-md flex-col gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h2 className="mb-4 text-lg font-semibold">recognition & awards</h2>
         <TooltipProvider delayDuration={150}>
           <div className="flex flex-wrap gap-2">
@@ -379,7 +448,7 @@ export default function AboutPage() {
             </AccordionItem>
           </Accordion>
         </TooltipProvider>
-      </section>
+      </motion.section>
     </main>
   );
 }

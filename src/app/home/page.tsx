@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'motion/react';
 import { Icon } from '@iconify/react';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
@@ -66,6 +67,28 @@ const rawFeatured: (FeaturedProject | null)[] = FEATURED_ORDER.map(slug => {
 const featuredProjects: FeaturedProject[] = rawFeatured.filter(
   (p): p is FeaturedProject => p !== null
 );
+
+/* -------------------------------------------------------------------------- */
+/*                             Animation variants                             */
+/* -------------------------------------------------------------------------- */
+
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } },
+};
+const heroItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+const bentoContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09 } },
+};
+const bentoItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+};
 
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
@@ -201,85 +224,111 @@ export default function HomePage() {
     /* -------------------------------------------------------------------------- */
 
     <main className="flex flex-col gap-12 px-5 md:px-8">
-      <section className="flex max-w-screen-md flex-col gap-4">
-        <h1 className="text-xl font-semibold tracking-tight">james kok</h1>
-        <h2 className="mb-6 text-sm">CMD student · Learning frontend design & development</h2>
-        <p className="text-sm">
+      {/* Hero — staggered entrance on load */}
+      <motion.section
+        className="flex max-w-screen-md flex-col gap-4"
+        variants={heroContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.h1 variants={heroItem} className="text-xl font-semibold tracking-tight">james kok</motion.h1>
+        <motion.h2 variants={heroItem} className="mb-6 text-sm">CMD student · Learning frontend design & development</motion.h2>
+        <motion.p variants={heroItem} className="text-sm">
           Welcome to my portfolio. I am a 19 year old Student at the Amsterdam University of Applied Sciences
           (AUAS/HvA). Currently I'm studying Communication & Multimedia Design (CMD).
-        </p>
-        <p className="text-sm">
+        </motion.p>
+        <motion.p variants={heroItem} className="text-sm">
           I am interested in design, technology, interfaces and programming. What you find here is a mix of school
           projects and personal work. I work across the full design-to-code pipeline — from UX research and UI design to frontend development.
-        </p>
-      </section>
+        </motion.p>
+      </motion.section>
 
-      {/* -------------------------------------------------------------------------- 
-    /                         Project bento section                              /                        
+      {/* --------------------------------------------------------------------------
+    /                         Project bento section                              /
      -------------------------------------------------------------------------- */}
-      
+
       <section aria-label="Featured projects">
-        <h2 className="mb-4 text-lg font-semibold">featured projects</h2>
-        <div className="grid auto-rows-[8rem] grid-cols-1 gap-4 md:auto-rows-[10rem] md:grid-cols-6">
+        <motion.h2
+          className="mb-4 text-lg font-semibold"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          featured projects
+        </motion.h2>
+
+        {/* Bento grid — staggered scroll entrance */}
+        <motion.div
+          className="grid auto-rows-[8rem] grid-cols-1 gap-4 md:auto-rows-[10rem] md:grid-cols-6"
+          variants={bentoContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {featuredProjects.map((p, i) => {
             const isActive = isMobile && i === activeMobileProject;
             return (
-              <Link
+              <motion.div
                 key={p.href}
-                ref={(el) => {
-                  projectRefs.current[i] = el;
-                }}
-                href={p.href}
-                className={[
-                  'group relative overflow-hidden rounded-2xl',
-                  'border border-black/5 dark:border-white/10',
-                  'bg-white dark:bg-neutral-900',
-                  'transition-transform duration-300 ease-out hover:scale-98',
-                  'shadow-sm transition-shadow hover:shadow-md',
-                  p.colSpan ?? 'md:col-span-2',
-                  p.rowSpan ?? 'row-span-1',
-                  isActive ? 'is-active' : '',
-                ].join(' ')}
+                variants={bentoItem}
+                className={[p.colSpan ?? 'md:col-span-2', p.rowSpan ?? 'row-span-1'].join(' ')}
+              >
+                <Link
+                  ref={(el) => {
+                    projectRefs.current[i] = el;
+                  }}
+                  href={p.href}
+                  className={[
+                    'group relative overflow-hidden rounded-2xl block h-full',
+                    'border border-black/5 dark:border-white/10',
+                    'bg-white dark:bg-neutral-900',
+                    'transition-transform duration-300 ease-out hover:scale-98',
+                    'shadow-sm transition-shadow hover:shadow-md',
+                    isActive ? 'is-active' : '',
+                  ].join(' ')}
                 >
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105 group-[.is-active]:scale-105">
-                    {p.cover && ( // Narrow so cover is not undefined
-                      <Image
-                        src={p.cover}
-                        alt={p.alt}
-                        fill
-                        sizes="(min-width: 768px) 33vw, 100vw"
-                        className="object-cover"
-                        priority
-                      />
-                    )}
-                  </div>
-                  <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                    <span
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105 group-[.is-active]:scale-105">
+                      {p.cover && ( // Narrow so cover is not undefined
+                        <Image
+                          src={p.cover}
+                          alt={p.alt}
+                          fill
+                          sizes="(min-width: 768px) 33vw, 100vw"
+                          className="object-cover"
+                          priority
+                        />
+                      )}
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+                      <span
+                        className={[
+                          'translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0',
+                          'transition-all duration-300 ease-out',
+                          'group-hover:translate-y-0 group-hover:opacity-100',
+                          'group-[.is-active]:translate-y-0 group-[.is-active]:opacity-100',
+                          'md:text-lg dark:text-white',
+                        ].join(' ')}
+                      >
+                        {p.title}
+                      </span>
+                    </div>
+                    <div
                       className={[
-                        'translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0',
-                        'transition-all duration-300 ease-out',
-                        'group-hover:translate-y-0 group-hover:opacity-100',
-                        'group-[.is-active]:translate-y-0 group-[.is-active]:opacity-100',
-                        'md:text-lg dark:text-white',
+                        'pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out',
+                        'group-hover:bg-black/50',
+                        'group-[.is-active]:bg-black/50',
                       ].join(' ')}
-                    >
-                      {p.title}
-                    </span>
+                    />
                   </div>
-                  <div
-                    className={[
-                      'pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out',
-                      'group-hover:bg-black/50',
-                      'group-[.is-active]:bg-black/50',
-                    ].join(' ')}
-                  />
-                </div>
-                <span className="sr-only">{`Open project: ${p.title}`}</span>
-              </Link>
+                  <span className="sr-only">{`Open project: ${p.title}`}</span>
+                </Link>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
+
         <div className="mt-4 flex justify-end">
           <Button asChild variant="outline" className="group text-xs whitespace-nowrap md:min-w-[12.75rem]">
             <Link href="/projects">
@@ -294,11 +343,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
     /                           Tools section                                    /
      -------------------------------------------------------------------------- */}
 
-      <section aria-label="Tools">
+      <motion.section
+        aria-label="Tools"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h2 className="mb-4 text-lg font-semibold">my toolset</h2>
         <CursorProvider>
           <ul
@@ -348,13 +403,19 @@ export default function HomePage() {
             ) : null}
           </CursorFollow>
         </CursorProvider>
-      </section>
+      </motion.section>
 
-      {/* -------------------------------------------------------------------------- 
+      {/* --------------------------------------------------------------------------
     /                           Contact section                                  /
      -------------------------------------------------------------------------- */}
 
-      <section aria-label="Contact">
+      <motion.section
+        aria-label="Contact"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
         <h2 className="mb-4 text-lg font-semibold">contact</h2>
         <p className="mb-4 text-sm">
           Or if you prefer contacting me directly:&nbsp;
@@ -426,7 +487,7 @@ export default function HomePage() {
             </Button>
           </div>
         </form>
-      </section>
+      </motion.section>
     </main>
   );
 }

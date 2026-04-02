@@ -6,6 +6,7 @@ import Header from '@/app/components/header';
 import Footer from '@/app/components/footer';
 import { InteractiveGridPattern } from '@/components/ui/shadcn-io/interactive-grid-pattern';
 import { Toaster } from '@/components/ui/sonner';
+import { PageTransition } from '@/app/components/PageTransition';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               />
             </div>
             <main className="container mx-auto max-w-3xl flex-1 px-4 py-10">
-              {children}
+              <PageTransition>{children}</PageTransition>
             </main>
           </div>
           <Toaster />
