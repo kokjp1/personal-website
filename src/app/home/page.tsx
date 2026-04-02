@@ -4,10 +4,10 @@
 /*                            Imports/types/consts                            */
 /* -------------------------------------------------------------------------- */
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { Icon } from '@iconify/react';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { TOOLS, GROUP_LABEL, GROUP_COLOR, ToolBadge, type ToolGroup } from '@/co
 import { projectMeta } from "@/data/projects/registry";
 import { toast } from 'sonner';
 import type { StaticImageData } from 'next/image';
+import { ScrubHeading } from '@/components/ScrubText';
 
 // --- Define which slugs appear in the bento + their layout
 const FEATURED_LAYOUT: Record<
@@ -78,7 +79,7 @@ const heroContainer = {
 };
 const heroItem = {
   hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 
 const bentoContainer = {
@@ -87,8 +88,93 @@ const bentoContainer = {
 };
 const bentoItem = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
+
+/* -------------------------------------------------------------------------- */
+/*                       Scroll-driven sub-components                         */
+/* -------------------------------------------------------------------------- */
+
+/** Bento card whose cover image parallax-scrolls independently of the card. */
+function ParallaxBentoCard({
+  project,
+  index,
+  isActive,
+  onRef,
+}: {
+  project: FeaturedProject;
+  index: number;
+  isActive: boolean;
+  onRef: (el: HTMLAnchorElement | null) => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: cardRef, offset: ['start end', 'end start'] });
+  // Alternate direction per card for visual depth variety
+  const rawY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    index % 2 === 0 ? ['-20px', '20px'] : ['20px', '-20px'],
+  );
+  const imageY = useSpring(rawY, { stiffness: 80, damping: 20 });
+
+  return (
+    <div ref={cardRef} className="h-full">
+      <Link
+        ref={onRef}
+        href={project.href}
+        className={[
+          'group relative block h-full overflow-hidden rounded-2xl',
+          'border border-black/5 dark:border-white/10',
+          'bg-white dark:bg-neutral-900',
+          'shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:scale-[0.98] hover:shadow-md',
+          isActive ? 'is-active' : '',
+        ].join(' ')}
+      >
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Parallax layer — extends beyond card bounds so travel doesn't clip */}
+          <motion.div
+            style={{ y: imageY }}
+            className="absolute -inset-8 will-change-transform"
+          >
+            <div className="relative h-full w-full transform-gpu transition-transform duration-300 ease-out group-hover:scale-105 group-[.is-active]:scale-105">
+              {project.cover && (
+                <Image
+                  src={project.cover}
+                  alt={project.alt}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                  priority
+                />
+              )}
+            </div>
+          </motion.div>
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+            <span
+              className={[
+                'translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0',
+                'transition-all duration-300 ease-out',
+                'group-hover:translate-y-0 group-hover:opacity-100',
+                'group-[.is-active]:translate-y-0 group-[.is-active]:opacity-100',
+                'md:text-lg dark:text-white',
+              ].join(' ')}
+            >
+              {project.title}
+            </span>
+          </div>
+          <div
+            className={[
+              'pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out',
+              'group-hover:bg-black/50',
+              'group-[.is-active]:bg-black/50',
+            ].join(' ')}
+          />
+        </div>
+        <span className="sr-only">{`Open project: ${project.title}`}</span>
+      </Link>
+    </div>
+  );
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   Page                                     */
@@ -248,15 +334,7 @@ export default function HomePage() {
      -------------------------------------------------------------------------- */}
 
       <section aria-label="Featured projects">
-        <motion.h2
-          className="mb-4 text-lg font-semibold"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          featured projects
-        </motion.h2>
+        <ScrubHeading text="featured projects" className="mb-4 text-lg font-semibold" />
 
         {/* Bento grid — staggered scroll entrance */}
         <motion.div
@@ -274,56 +352,12 @@ export default function HomePage() {
                 variants={bentoItem}
                 className={[p.colSpan ?? 'md:col-span-2', p.rowSpan ?? 'row-span-1'].join(' ')}
               >
-                <Link
-                  ref={(el) => {
-                    projectRefs.current[i] = el;
-                  }}
-                  href={p.href}
-                  className={[
-                    'group relative overflow-hidden rounded-2xl block h-full',
-                    'border border-black/5 dark:border-white/10',
-                    'bg-white dark:bg-neutral-900',
-                    'transition-transform duration-300 ease-out hover:scale-98',
-                    'shadow-sm transition-shadow hover:shadow-md',
-                    isActive ? 'is-active' : '',
-                  ].join(' ')}
-                >
-                  <div className="absolute inset-0 overflow-hidden">
-                    <div className="size-fit h-full w-full transform-gpu transition-transform duration-300 ease-out will-change-transform group-hover:scale-105 group-[.is-active]:scale-105">
-                      {p.cover && ( // Narrow so cover is not undefined
-                        <Image
-                          src={p.cover}
-                          alt={p.alt}
-                          fill
-                          sizes="(min-width: 768px) 33vw, 100vw"
-                          className="object-cover"
-                          priority
-                        />
-                      )}
-                    </div>
-                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                      <span
-                        className={[
-                          'translate-y-1 rounded-2xl text-base font-semibold tracking-tight text-white opacity-0',
-                          'transition-all duration-300 ease-out',
-                          'group-hover:translate-y-0 group-hover:opacity-100',
-                          'group-[.is-active]:translate-y-0 group-[.is-active]:opacity-100',
-                          'md:text-lg dark:text-white',
-                        ].join(' ')}
-                      >
-                        {p.title}
-                      </span>
-                    </div>
-                    <div
-                      className={[
-                        'pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 ease-out',
-                        'group-hover:bg-black/50',
-                        'group-[.is-active]:bg-black/50',
-                      ].join(' ')}
-                    />
-                  </div>
-                  <span className="sr-only">{`Open project: ${p.title}`}</span>
-                </Link>
+                <ParallaxBentoCard
+                  project={p}
+                  index={i}
+                  isActive={isActive}
+                  onRef={(el) => { projectRefs.current[i] = el; }}
+                />
               </motion.div>
             );
           })}
@@ -354,7 +388,7 @@ export default function HomePage() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h2 className="mb-4 text-lg font-semibold">my toolset</h2>
+        <ScrubHeading text="my toolset" className="mb-4 text-lg font-semibold" />
         <CursorProvider>
           <ul
             id="tools-grid"
@@ -416,7 +450,7 @@ export default function HomePage() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h2 className="mb-4 text-lg font-semibold">contact</h2>
+        <ScrubHeading text="contact" className="mb-4 text-lg font-semibold" />
         <p className="mb-4 text-sm">
           Or if you prefer contacting me directly:&nbsp;
           <a

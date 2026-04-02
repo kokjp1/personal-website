@@ -14,9 +14,11 @@ import Image from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import * as React from 'react';
+import { useRef } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import FsLightbox from 'fslightbox-react';
-import { motion } from 'motion/react';
+import { motion, useSpring, useScroll, useTransform } from 'motion/react';
+import { ScrubHeading, ScrubParagraph } from '@/components/ScrubText';
 
 const traits = [
   '🎨 Creative',
@@ -61,7 +63,7 @@ const heroContainer = {
 };
 const heroItem = {
   hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 const traitContainer = {
   hidden: {},
@@ -69,8 +71,29 @@ const traitContainer = {
 };
 const traitItem = {
   hidden: { opacity: 0, scale: 0.85 },
-  show: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
+
+/** Gallery image with scroll-parallax inner image. */
+function ParallaxImage({ src, alt, idx }: { src: string; alt: string; idx: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  // Vary travel distance per image for an organic feel
+  const travels = [22, 16, 26, 14, 20];
+  const t = travels[idx % travels.length];
+  const rawY = useTransform(scrollYProgress, [0, 1], [`-${t}px`, `${t}px`]);
+  const y = useSpring(rawY, { stiffness: 80, damping: 20 });
+
+  return (
+    <div ref={ref} className="relative aspect-[1/1] overflow-hidden rounded">
+      <motion.div style={{ y }} className="absolute -inset-8 will-change-transform">
+        <div className="relative h-full w-full">
+          <Image src={src} alt={alt} fill sizes="800px" className="object-cover" />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 {
   /* --------------------------------------------------------------------------
@@ -101,6 +124,7 @@ export default function AboutPage() {
   );
 
   const awardsOffset = carouselImages.length + outsideWorkImages.length;
+
 
   return (
     <main className="text-foreground flex flex-col gap-12 px-5 md:px-8">
@@ -157,7 +181,7 @@ export default function AboutPage() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h2 className="mb-4 text-lg font-semibold">my story</h2>
+        <ScrubHeading text="my story" className="mb-4 text-lg font-semibold" />
         <p className="text-sm">
           I'm a Communication & Multimedia Design (<b>CMD</b>) student based in Amsterdam with a strong interest in how
           design and technology come together. Ever since I've been young I've used computers a lot. Wether it was for
@@ -167,21 +191,15 @@ export default function AboutPage() {
           three, seeing as I just really like all three of the directions. My goal is specializing in all 3 directions.
         </p>
 
-        <h2 className="my-4 text-lg font-semibold">designer's ethos</h2>
-        <p className="text-sm">
-          I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time
-          to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I've thought
-          through how to actually bring them to life. Because of that, I've learned to slow down, break those ideas into
-          smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client
-          feedback, which is invaluable.
-        </p>
-        <p className="mt-4 text-sm">
-          In group settings, I usually take on a flexible role, adapting to what the project or team needs. I'm highly
-          organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or
-          environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in
-          my work and can make massive progress in a short time when I'm fully focused sometimes, sometimes completing a
-          week's worth of work in a single day That kind of momentum is something I try to utilize as best as I can.
-        </p>
+        <ScrubHeading text="designer's ethos" className="my-4 text-lg font-semibold" />
+        <ScrubParagraph
+          className="text-sm"
+          text="I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I've thought through how to actually bring them to life. Because of that, I've learned to slow down, break those ideas into smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client feedback, which is invaluable."
+        />
+        <ScrubParagraph
+          className="mt-4 text-sm"
+          text="In group settings, I usually take on a flexible role, adapting to what the project or team needs. I'm highly organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in my work and can make massive progress in a short time when I'm fully focused sometimes, sometimes completing a week's worth of work in a single day. That kind of momentum is something I try to utilize as best as I can."
+        />
       </motion.section>
 
       {/* --------------------------------------------------------------------------
@@ -243,29 +261,11 @@ export default function AboutPage() {
       /                              Outside of work                               /
       -------------------------------------------------------------------------- */}
       <section aria-label="Setup gallery" className="max-w-screen-md">
-        <motion.h2
-          className="mb-4 text-lg font-semibold"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          in my free time
-        </motion.h2>
-        <motion.p
+        <ScrubHeading text="in my free time" className="mb-4 text-lg font-semibold" />
+        <ScrubParagraph
           className="mb-4 text-sm"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
-        >
-          To give you a better idea of who I am outside of work, here's a bit about what I do in my free time. I spend a
-          lot of time on games, media, and music. They're things I've always enjoyed and still get a lot out of.
-          Whether that's playing something new, watching a show, or discovering new songs to listen to, it's a
-          big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations
-          in After Effects, or building 3D scenes/models in Blender. On top of that, I'm really into tech and hardware. I built
-          my own PC and enjoy working on my desk setup. I've added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job.
-        </motion.p>
+          text="To give you a better idea of who I am outside of work, here's a bit about what I do in my free time. I spend a lot of time on games, media, and music. They're things I've always enjoyed and still get a lot out of. Whether that's playing something new, watching a show, or discovering new songs to listen to, it's a big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations in After Effects, or building 3D scenes/models in Blender. On top of that, I'm really into tech and hardware. I built my own PC and enjoy working on my desk setup. I've added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job."
+        />
         <div className="grid grid-cols-6 gap-4">
           {outsideWorkImages.map((img, idx) => {
             const globalIndex = carouselImages.length + idx; // offset after carousel images
@@ -294,9 +294,7 @@ export default function AboutPage() {
                 onMouseEnter={() => setGalleryHover(idx)}
                 onMouseLeave={() => setGalleryHover(null)}
               >
-                <div className="relative aspect-[1/1] overflow-hidden rounded">
-                  <Image src={img.src} alt={img.alt} fill sizes="800px" className="object-cover" />
-                </div>
+                <ParallaxImage src={img.src} alt={img.alt} idx={idx} />
               </motion.figure>
             );
           })}
@@ -315,7 +313,7 @@ export default function AboutPage() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h2 className="mb-4 text-lg font-semibold">recognition & awards</h2>
+        <ScrubHeading text="recognition & awards" className="mb-4 text-lg font-semibold" />
         <TooltipProvider delayDuration={150}>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => setValue('item-1')}>
