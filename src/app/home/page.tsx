@@ -7,7 +7,8 @@ import * as React from 'react';
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
+import { MagneticButton } from '@/components/MagneticButton';
 import { Icon } from '@iconify/react';
 import { Cursor, CursorFollow, CursorProvider } from '@/components/ui/shadcn-io/animated-cursor';
 import { Button } from '@/components/ui/button';
@@ -82,6 +83,23 @@ const heroItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 
+function Typewriter({ text, delay = 0, className }: { text: string; delay?: number; className?: string }) {
+  return (
+    <motion.span className={className} aria-label={text}>
+      {text.split('').map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: delay + i * 0.022, duration: 0.01 }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
+
 const bentoContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09 } },
@@ -117,8 +135,33 @@ function ParallaxBentoCard({
   );
   const imageY = useSpring(rawY, { stiffness: 80, damping: 20 });
 
+  // 3D tilt
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 200, damping: 22 });
+  const springRotateY = useSpring(rotateY, { stiffness: 200, damping: 22 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    rotateY.set(x * 12);
+    rotateX.set(-y * 12);
+  };
+  const handleMouseLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+  };
+
   return (
-    <div ref={cardRef} className="h-full">
+    <motion.div
+      ref={cardRef}
+      className="h-full"
+      style={{ rotateX: springRotateX, rotateY: springRotateY, transformStyle: 'preserve-3d', perspective: '900px' }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <Link
         ref={onRef}
         href={project.href}
@@ -126,7 +169,7 @@ function ParallaxBentoCard({
           'group relative block h-full overflow-hidden rounded-2xl',
           'border border-black/5 dark:border-white/10',
           'bg-white dark:bg-neutral-900',
-          'shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:scale-[0.98] hover:shadow-md',
+          'shadow-sm transition-[box-shadow] duration-300 ease-out hover:shadow-md',
           isActive ? 'is-active' : '',
         ].join(' ')}
       >
@@ -172,7 +215,7 @@ function ParallaxBentoCard({
         </div>
         <span className="sr-only">{`Open project: ${project.title}`}</span>
       </Link>
-    </div>
+    </motion.div>
   );
 }
 
@@ -318,7 +361,9 @@ export default function HomePage() {
         animate="show"
       >
         <motion.h1 variants={heroItem} className="text-xl font-semibold tracking-tight">james kok</motion.h1>
-        <motion.h2 variants={heroItem} className="mb-6 text-sm">CMD student · Learning frontend design & development</motion.h2>
+        <motion.h2 variants={heroItem} className="mb-6 text-sm">
+          <Typewriter text="CMD student · Learning frontend design & development" delay={0.22} />
+        </motion.h2>
         <motion.p variants={heroItem} className="text-sm">
           Welcome to my portfolio. I am a 19 year old Student at the Amsterdam University of Applied Sciences
           (AUAS/HvA). Currently I'm studying Communication & Multimedia Design (CMD).
@@ -364,16 +409,18 @@ export default function HomePage() {
         </motion.div>
 
         <div className="mt-4 flex justify-end">
-          <Button asChild variant="outline" className="group text-xs whitespace-nowrap md:min-w-[12.75rem]">
-            <Link href="/projects">
-              View all projects
-              <Icon
-                icon="lucide:arrow-right"
-                className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
-                aria-hidden
-              />
-            </Link>
-          </Button>
+          <MagneticButton>
+            <Button asChild variant="outline" className="group text-xs whitespace-nowrap md:min-w-[12.75rem]">
+              <Link href="/projects">
+                View all projects
+                <Icon
+                  icon="lucide:arrow-right"
+                  className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+                  aria-hidden
+                />
+              </Link>
+            </Button>
+          </MagneticButton>
         </div>
       </section>
 
@@ -455,7 +502,7 @@ export default function HomePage() {
           Or if you prefer contacting me directly:&nbsp;
           <a
             href="mailto:jamespieterkok@outlook.com"
-            className="underline decoration-current text-blue-600 dark:text-sky-400"
+            className="link-underline text-blue-600 dark:text-sky-400"
             style={{ color: 'rgb(37 99 235)' }} // tailwind blue-600
           >
             jamespieterkok@outlook.com
@@ -471,7 +518,7 @@ export default function HomePage() {
                 name="name"
                 type="text"
                 required
-                className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
+                className="input-animated w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
                 placeholder="Jane Doe"
                 autoComplete="name"
               />
@@ -483,7 +530,7 @@ export default function HomePage() {
                 name="email"
                 type="email"
                 required
-                className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
+                className="input-animated w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
                 placeholder="jane@example.com"
                 autoComplete="email"
               />
@@ -497,7 +544,7 @@ export default function HomePage() {
               name="message"
               required
               rows={6}
-              className="w-full resize-y rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
+              className="input-animated w-full resize-y rounded-md border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 transition focus:border-black/20 dark:border-white/10 dark:bg-neutral-900 dark:focus:border-white/20"
               placeholder="What would you like to discuss?"
             />
           </div>
@@ -506,19 +553,21 @@ export default function HomePage() {
             <span aria-live="polite" className="text-xs text-muted-foreground">
               {formResult}
             </span>
-            <Button
-              variant="outline"
-              type="submit"
-              disabled={isSubmitting}
-              className="text-xs ml-auto"
-            >
-              {isSubmitting ? 'Sending…' : 'Submit form'}
-              <Icon
-                icon="lucide:arrow-right"
-                className="ml-2 h-4 w-4 translate-x-0 transition-transform duration-300 group-hover:translate-x-1.5"
-                aria-hidden
-              />
-            </Button>
+            <MagneticButton className="ml-auto">
+              <Button
+                variant="outline"
+                type="submit"
+                disabled={isSubmitting}
+                className="text-xs group"
+              >
+                {isSubmitting ? 'Sending…' : 'Submit form'}
+                <Icon
+                  icon="lucide:arrow-right"
+                  className="ml-2 h-4 w-4 translate-x-0 transition-transform duration-300 group-hover:translate-x-1.5"
+                  aria-hidden
+                />
+              </Button>
+            </MagneticButton>
           </div>
         </form>
       </motion.section>

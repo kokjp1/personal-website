@@ -7,6 +7,8 @@ import Footer from '@/app/components/footer';
 import { InteractiveGridPattern } from '@/components/ui/shadcn-io/interactive-grid-pattern';
 import { Toaster } from '@/components/ui/sonner';
 import { PageTransition } from '@/app/components/PageTransition';
+import { SmoothScroll } from '@/components/SmoothScroll';
+import { CursorBlob } from '@/components/CursorBlob';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,6 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="bg-background text-foreground min-h-dvh antialiased overflow-x-hidden">
         <ThemeProvider>
+          <SmoothScroll>
+          <CursorBlob />
           <div className="flex min-h-dvh flex-col">
             <div className="container mx-auto max-w-3xl px-4">
               <div className="flex items-center justify-between gap-4">
@@ -38,11 +42,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 className="mt-[-400] h-2/3 skew-y-12 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]"
               />
             </div>
-            <main className="container mx-auto max-w-3xl flex-1 px-4 py-10">
+            <main className="container mx-auto max-w-3xl flex-1 px-4 py-10 pb-32">
               <PageTransition>{children}</PageTransition>
             </main>
           </div>
           <Toaster />
+          </SmoothScroll>
         </ThemeProvider>
         <Footer />
       </body>

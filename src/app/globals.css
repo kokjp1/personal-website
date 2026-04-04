@@ -216,6 +216,32 @@ a:hover { text-decoration: underline; }
   }
 }
 
+/* Animated underline utility */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Input focus glow */
+.input-animated {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input-animated:focus {
+  box-shadow: 0 0 0 3px hsl(var(--foreground) / 0.06);
+}
+
 .fslightbox-container,
 .fslightbox-container .fslightbox-bg {
   background: rgba(0,0,0,0.8) !important;       

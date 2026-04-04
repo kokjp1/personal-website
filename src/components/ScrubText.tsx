@@ -27,8 +27,9 @@ function useScrubProgress(ref: React.RefObject<HTMLElement | null>) {
       // Absolute doc-top position (stable regardless of current scroll)
       const elTop = el.getBoundingClientRect().top + scrollY.get();
       const vh = window.innerHeight;
+      const maxScroll = document.documentElement.scrollHeight - vh;
       const start = Math.max(0, elTop - vh * 0.82);
-      const end = Math.max(start + 1, elTop - vh * 0.28);
+      const end = Math.min(Math.max(start + 1, elTop - vh * 0.28), maxScroll);
       const p = (scrollY.get() - start) / (end - start);
       progress.set(Math.max(0, Math.min(1, p)));
     };

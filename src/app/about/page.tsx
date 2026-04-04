@@ -18,7 +18,7 @@ import { useRef } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import FsLightbox from 'fslightbox-react';
 import { motion, useSpring, useScroll, useTransform } from 'motion/react';
-import { ScrubHeading, ScrubParagraph } from '@/components/ScrubText';
+import { ScrubHeading } from '@/components/ScrubText';
 
 const traits = [
   '🎨 Creative',
@@ -159,8 +159,20 @@ export default function AboutPage() {
           whileInView="show"
           viewport={{ once: true }}
         >
-          {traits.map((t) => (
-            <motion.li key={t} variants={traitItem}>
+          {traits.map((t, i) => (
+            <motion.li
+              key={t}
+              variants={traitItem}
+              animate={{ y: [0, -5, 0] }}
+              transition={{
+                y: {
+                  duration: 2.2 + (i % 4) * 0.35,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.12,
+                },
+              }}
+            >
               <Badge variant="secondary" className="rounded-md px-3 py-1 text-xs">
                 {t}
               </Badge>
@@ -192,14 +204,12 @@ export default function AboutPage() {
         </p>
 
         <ScrubHeading text="designer's ethos" className="my-4 text-lg font-semibold" />
-        <ScrubParagraph
-          className="text-sm"
-          text="I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I've thought through how to actually bring them to life. Because of that, I've learned to slow down, break those ideas into smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client feedback, which is invaluable."
-        />
-        <ScrubParagraph
-          className="mt-4 text-sm"
-          text="In group settings, I usually take on a flexible role, adapting to what the project or team needs. I'm highly organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in my work and can make massive progress in a short time when I'm fully focused sometimes, sometimes completing a week's worth of work in a single day. That kind of momentum is something I try to utilize as best as I can."
-        />
+        <p className="text-sm">
+          I like to work in a structured way, but I don't mind deviating from how I usually go about a project from time to time. I tend to come up with fully fleshed-out, high-fidelity ideas very quickly, often before I've thought through how to actually bring them to life. Because of that, I've learned to slow down, break those ideas into smaller, manageable steps. This leads to a better end result where I also have lots of room for user/client feedback, which is invaluable.
+        </p>
+        <p className="mt-4 text-sm">
+          In group settings, I usually take on a flexible role, adapting to what the project or team needs. I'm highly organized in the way I plan and track my work, and I've been told I adjust quickly to new workflows or environments. While I enjoy collaborating, I also thrive when working independently. I tend to get absorbed in my work and can make massive progress in a short time when I'm fully focused sometimes, sometimes completing a week's worth of work in a single day. That kind of momentum is something I try to utilize as best as I can.
+        </p>
       </motion.section>
 
       {/* --------------------------------------------------------------------------
@@ -262,10 +272,9 @@ export default function AboutPage() {
       -------------------------------------------------------------------------- */}
       <section aria-label="Setup gallery" className="max-w-screen-md">
         <ScrubHeading text="in my free time" className="mb-4 text-lg font-semibold" />
-        <ScrubParagraph
-          className="mb-4 text-sm"
-          text="To give you a better idea of who I am outside of work, here's a bit about what I do in my free time. I spend a lot of time on games, media, and music. They're things I've always enjoyed and still get a lot out of. Whether that's playing something new, watching a show, or discovering new songs to listen to, it's a big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations in After Effects, or building 3D scenes/models in Blender. On top of that, I'm really into tech and hardware. I built my own PC and enjoy working on my desk setup. I've added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job."
-        />
+        <p className="mb-4 text-sm">
+          To give you a better idea of who I am outside of work, here's a bit about what I do in my free time. I spend a lot of time on games, media, and music. They're things I've always enjoyed and still get a lot out of. Whether that's playing something new, watching a show, or discovering new songs to listen to, it's a big part of my day-to-day life. I also like being creative just for fun; making posters, editing animations in After Effects, or building 3D scenes/models in Blender. On top of that, I'm really into tech and hardware. I built my own PC and enjoy working on my desk setup. I've added a few photos of my desk setup below. They tie into all of this, but it also doubles as my workspace for CMD and my job.
+        </p>
         <div className="grid grid-cols-6 gap-4">
           {outsideWorkImages.map((img, idx) => {
             const globalIndex = carouselImages.length + idx; // offset after carousel images

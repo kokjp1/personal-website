@@ -1,8 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git checkout:*)"
-      "Bash(npm run:*)"
+      "Bash(git checkout:*)",
+      "Bash(npm install:*)",
+      "Bash(node -e \"require\\('lenis'\\); console.log\\('ok'\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"const l = require\\('lenis/react'\\); console.log\\(Object.keys\\(l\\)\\)\")",
+      "Bash(node -e \"const m = require\\('motion/react'\\); console.log\\(typeof m.useVelocity\\)\")",
+      "Bash(npm run:*)",
+      "Bash(node -e \"const p = require\\('./node_modules/lenis/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(taskkill:*)"
     ]
   }
 }
