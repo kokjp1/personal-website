@@ -131,6 +131,9 @@ html {
   overscroll-behavior-x: none;
 }
 
+/* Hide system cursor so the custom dot takes over */
+* { cursor: none !important; }
+
 body {
   max-width: 100%;
   overflow-x: hidden;      /* Kill horizontal pan */

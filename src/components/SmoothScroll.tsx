@@ -1,20 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 export function SmoothScroll({ children }: { children: ReactNode }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const lenisRef = useRef<any>(null);
+  const pathname = usePathname();
+
   useEffect(() => {
     let animFrame: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let lenis: any;
 
     const init = async () => {
       const Lenis = (await import('lenis')).default;
-      lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+      lenisRef.current = new Lenis({ duration: 1.2, smoothWheel: true });
 
       const raf = (time: number) => {
-        lenis.raf(time);
+        lenisRef.current?.raf(time);
         animFrame = requestAnimationFrame(raf);
       };
       animFrame = requestAnimationFrame(raf);
@@ -23,9 +26,15 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     init();
     return () => {
       cancelAnimationFrame(animFrame);
-      lenis?.destroy();
+      lenisRef.current?.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // Reset scroll momentum on route change
+  useEffect(() => {
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  }, [pathname]);
 
   return <>{children}</>;
 }
