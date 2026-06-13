@@ -16,12 +16,14 @@ import * as portfoliov3 from "./portfoliov3/index";
 import * as writedown from "./writedown/index";
 import * as chatextractor from "./chatextractor/index";
 import * as sonora from "./sonora/index";
+import * as goldenroast from "./goldenroast/index";
+import * as indiesleaze from "./indiesleaze-meesterproef/index";
+
 type ProjectModule = {
   meta: ProjectMeta;
   default: ComponentType<unknown>;
 };
 
-// Refined type guard (removed unused @ts-expect-error)
 function isProjectModule(mod: unknown): mod is ProjectModule {
   if (!mod || typeof mod !== "object") return false;
   if (!("meta" in mod)) return false;
@@ -45,10 +47,10 @@ const rawModules = [
   writedown,
   chatextractor,
   sonora,
+  goldenroast,
+  indiesleaze,
 ];
 
-// Filter (in case a folder is missing an index.tsx)
 export const projectModules: ProjectModule[] = rawModules.filter(isProjectModule);
 
-// Strongly typed array of meta objects (no explicit any)
 export const projectMeta: ProjectMeta[] = projectModules.map((m) => m.meta);
